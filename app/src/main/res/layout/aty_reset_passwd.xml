@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_gap">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/aty_resetpasswd_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/colorPrimary">
+        </android.support.v7.widget.Toolbar>
+        <TextView
+            android:background="@color/grey_gap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="注册手机号"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white">
+            <EditText
+                android:id="@+id/aty_resetpasswd_phone"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:digits="0123456789"
+                android:gravity="center_vertical"
+                android:hint="手机号"
+                android:textColorHint="@color/colorGray"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
+            <TextView
+                android:id="@+id/aty_resetpasswd_get_verification"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_aty_register_btn"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:background="@color/grey_gap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="验证码"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="16dp"/>
+
+        <EditText
+            android:id="@+id/aty_resetpasswd_verification"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:gravity="center_vertical"
+            android:hint="输入验证码"
+            android:textColorHint="@color/colorGray"
+            android:inputType="text"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            />
+
+        <TextView
+            android:background="@color/grey_gap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="重置密码"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="16dp"/>
+
+        <EditText
+            android:id="@+id/aty_resetpasswd_newcode"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:gravity="center_vertical"
+            android:hint="输入重置密码"
+            android:textColorHint="@color/colorGray"
+            android:inputType="text"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            />
+
+
+
+        <EditText
+            android:id="@+id/aty_resetpasswd_newcode_again"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:gravity="center_vertical"
+            android:hint="再次输入重置密码"
+            android:textColorHint="@color/colorGray"
+            android:inputType="text"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            />
+
+        <TextView
+            android:id="@+id/aty_resetpasswd_commit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_aty_register_btn"
+            android:gravity="center"
+            android:text="提交"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>

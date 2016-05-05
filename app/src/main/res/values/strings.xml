@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">智居</string>
+    <string name="login">登录</string>
+    <string name="login_weme_user">注册智居(智能家居客户端)用户</string>
+    <string name="account_or_password_not_null">帐号和密码不能为空</string>
+    <string name="login_forgetpasswd">忘记密码？找回</string>
+    <string name="login_fail">登录失败</string>
+    <string name="login_success">登录成功</string>
+    <string name="equipment">设备</string>
+    <string name="scene">场景</string>
+    <string name="me">个人</string>
+
+    <string name="auto_water">智能浇水</string>
+    <string name="auto_light">智能照明</string>
+    <string name="auto_pet">智能喂食</string>
+
+
+    <string name="device_add">添加设备</string>
+    <string name="device_identify">设备验证</string>
+    <string name="device_code">设备码</string>
+    <string name="identify_code">检验码</string>
+
+    <string name="scene_add">添加场景</string>
+    <string name="scene_name">场景名称</string>
+    <string name="scene_setting">场景设置</string>
+    <string name="scene_name_hint">请输入场景名称</string>
+    <string name="delay_add">添加延时</string>
+    <string name="start_mode">启动方式</string>
+    <string name="task_list">任务列表</string>
+    <string name="device_select">选择设备</string>
+
+    <string name="time_task">定时任务</string>
+    <string name="history">历史记录</string>
+    <string name="info">详细信息</string>
+    <string name="delete">删除</string>
+
+    <string name="start_time_task">启动定时任务</string>
+    <string name="start_time">开始时间</string>
+    <string name="end_time">终止时间</string>
+    <string name="week_repeat">重复/每周</string>
+
+    <string name="device_info">设备信息</string>
+    <string name="device_name">设备名</string>
+    <string name="device_status">设备状态</string>
+
+    <string name="scene_detail">场景详情</string>
+
+
+    <string name="network_error">网络异常</string>
+    <string name="setting">设置</string>
+    <string name="about">关于</string>
+    <string name="more_than_99">99+</string>
+    <string name="loading">正在加载</string>
+    <string name="basic_info">基本信息</string>
+    <string name="name">姓名</string>
+    <string name="year">年龄</string>
+    <string name="contact_info">联系方式</string>
+    <string name="phone">手机号</string>
+    <string name="QQ">QQ</string>
+    <string name="wechat">微信</string>
+    <string name="please_input_title">标题</string>
+    <string name="committing">正在上传</string>
+    <string name="register_weme_user">注册智居(智能家居客户端)用户</string>
+    <string name="user_contract">用户协议</string>
+    <string name="name_not_empty">用户名不能为空</string>
+    <string name="password_long_6">密码至少6位</string>
+    <string name="password_not_equal">密码不一致</string>
+    <string name="birth_not_empty">生日不能为空</string>
+    <string name="phone_not_empty">手机号不能为空</string>
+    <string name="school_not_empty">学校不能为空</string>
+    <string name="choose_degree">请选择学历</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="person_info">个人信息</string>
+    <string name="cancel">取消</string>
+    <string name="change_background">改变背景照</string>
+    <string name="my_qrcode">我的二维码</string>
+    <string name="edit_info">修改个人信息</string>
+    <string name="birth">生日</string>
+    <string name="cache_removed">清空缓存完毕</string>
+    <string name="edit_fail">修改设置失败</string>
+
+</resources>

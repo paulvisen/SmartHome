@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:background="@color/grey_gap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/scene_setting"
+        android:textSize="14sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"/>
+
+    <RelativeLayout
+        android:id="@+id/start_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/start_mode_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="手动启动"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/forward"/>
+    </RelativeLayout>
+
+    <View
+        android:background="@color/grey_gap"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <RelativeLayout
+        android:id="@+id/use_scene"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="使用场景"/>
+        <Switch
+            android:id="@+id/use_scene_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <View
+        android:background="@color/grey_gap"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:background="@color/grey_gap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/task_list"
+        android:textSize="14sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/scene_task_list_swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/scene_task_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</LinearLayout>

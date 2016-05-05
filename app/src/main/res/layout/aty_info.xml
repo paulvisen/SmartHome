@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/aty_info_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/aty_info_top"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/aty_info_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:actualImageScaleType="centerCrop"
+            app:backgroundImage="@mipmap/info_default"/>
+
+        <ImageView
+            android:id="@+id/aty_info_more"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:padding="12dp"
+            android:src="@mipmap/more"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/aty_info_avatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            app:placeholderImage="@mipmap/default_avatar"
+            app:roundAsCircle="true"
+            app:roundingBorderColor="@color/white"
+            app:roundingBorderWidth="2dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:background="@color/grey_gap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/basic_info"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="16dp"/>
+        <FrameLayout
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_gravity="start"
+                android:text="@string/name"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/aty_info_name"
+                android:layout_gravity="end"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+        <TextView
+            android:background="@color/grey_gap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_info"
+            android:textSize="14sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="16dp"/>
+        <FrameLayout
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_gravity="start"
+                android:text="@string/phone"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/aty_info_phone"
+                android:layout_gravity="end"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@color/grey_gap" />
+        <FrameLayout
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_gravity="start"
+                android:text="@string/QQ"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/aty_info_qq"
+                android:layout_gravity="end"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@color/grey_gap" />
+        <FrameLayout
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_gravity="start"
+                android:text="@string/wechat"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/aty_info_we_chat"
+                android:layout_gravity="end"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
