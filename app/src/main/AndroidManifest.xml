@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -49,7 +50,8 @@
             android:name="com.amap.api.v2.apikey"
             android:value="fb85887c5598e510ac43099cd1eefc9a" />
 
-        <activity android:name=".ui.main.DeviceListActivity"></activity>
+        <activity android:name=".ui.main.DeviceListActivity" />
+        <activity android:name=".WifiListActivity"></activity>
     </application>
 
 </manifest>
