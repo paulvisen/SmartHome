@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.seu.smarthome.R;
+import com.seu.smarthome.WifiListActivity;
 
 
 /**
@@ -42,7 +43,7 @@ public class DeviceAddActivity extends AppCompatActivity implements Button.OnCli
     @Override
     public void onClick(View view) {
         Intent intent=new Intent();
-        intent.setClass(this,DeviceIdentifyActivity.class);
+        intent.setClass(this,WifiListActivity.class);
         startActivity(intent);
     }
 
