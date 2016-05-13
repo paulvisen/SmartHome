@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.seu.smarthome.ui.main.HistoryActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/history"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"/>
+
+    </android.support.v7.widget.Toolbar>
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/history_chart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+    </com.github.mikephil.charting.charts.LineChart>
+</LinearLayout>

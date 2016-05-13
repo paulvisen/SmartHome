@@ -41,6 +41,7 @@ public class DeviceControlActivity extends AppCompatActivity implements Button.O
         title.setText(deviceName);
 
         historyButton=(Button) findViewById(R.id.aty_device_history_button);
+        historyButton.setOnClickListener(this);
         timeTaskButton=(Button)findViewById(R.id.aty_device_time_task_button);
         timeTaskButton.setOnClickListener(this);
         infoButton=(Button)findViewById(R.id.aty_device_info_button);
@@ -69,6 +70,10 @@ public class DeviceControlActivity extends AppCompatActivity implements Button.O
             case R.id.aty_device_info_button:
                 intent.putExtra("deviceName",deviceName);
                 intent.setClass(this,DeviceInfoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.aty_device_history_button:
+                intent.setClass(this,HistoryActivity.class);
                 startActivity(intent);
                 break;
         }
