@@ -51,7 +51,7 @@
             android:value="fb85887c5598e510ac43099cd1eefc9a" />
 
         <activity android:name=".ui.main.DeviceListActivity" />
-        <activity android:name=".WifiListActivity"></activity>
+        <activity android:name=".ui.main.WifiListActivity"></activity>
     </application>
 
 </manifest>

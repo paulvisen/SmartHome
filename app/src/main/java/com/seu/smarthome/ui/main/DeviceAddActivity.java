@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.seu.smarthome.R;
-import com.seu.smarthome.WifiListActivity;
 
 
 /**
@@ -49,7 +48,7 @@ public class DeviceAddActivity extends AppCompatActivity implements Button.OnCli
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId()==R.id.home){
+        if(item.getItemId()==android.R.id.home){
             finish();
         }
         return true;
