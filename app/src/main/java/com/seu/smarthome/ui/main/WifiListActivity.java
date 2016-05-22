@@ -1,4 +1,4 @@
-package com.seu.smarthome;
+package com.seu.smarthome.ui.main;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,7 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.seu.smarthome.widgt.LoadingView;
+import com.seu.smarthome.R;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class WifiListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wifi_list);
+        setContentView(R.layout.aty_wifi_list);
         setTitle("");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,7 +71,7 @@ public class WifiListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId()==R.id.home){
+        if(item.getItemId()==android.R.id.home){
             finish();
         }
         return true;
