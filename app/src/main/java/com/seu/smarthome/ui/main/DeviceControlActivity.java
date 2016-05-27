@@ -26,6 +26,7 @@ public class DeviceControlActivity extends AppCompatActivity implements Button.O
     private Button deleteButton;
 
     private CharSequence deviceName;
+    private int deviceID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -38,6 +39,7 @@ public class DeviceControlActivity extends AppCompatActivity implements Button.O
         TextView title=(TextView)findViewById(R.id.aty_device_control_title);
         Intent intent=getIntent();
         deviceName=intent.getCharSequenceExtra("deviceName");
+        deviceID = intent.getIntExtra("deviceid", 0);
         title.setText(deviceName);
 
         historyButton=(Button) findViewById(R.id.aty_device_history_button);
@@ -62,6 +64,7 @@ public class DeviceControlActivity extends AppCompatActivity implements Button.O
     @Override
     public void onClick(View v){
         Intent intent=new Intent();
+        intent.putExtra("deviceid", deviceID);
         switch (v.getId()){
             case R.id.aty_device_time_task_button:
                 intent.setClass(this,TimeTaskActivity.class);

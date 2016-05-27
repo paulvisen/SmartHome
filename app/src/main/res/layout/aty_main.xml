@@ -45,21 +45,24 @@
             android:id="@+id/tab_device"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"/>
         <com.seu.smarthome.widgt.TabItem
             app:image="@mipmap/tab_scene"
             app:text="@string/scene"
             android:id="@+id/tab_scene"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"/>
         <com.seu.smarthome.widgt.TabItem
             app:image="@mipmap/tab_my"
             app:text="@string/me"
             android:id="@+id/tab_my"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"/>
     </LinearLayout>
 
 

@@ -6,6 +6,7 @@
     <string name="login_forgetpasswd">忘记密码？找回</string>
     <string name="login_fail">登录失败</string>
     <string name="login_success">登录成功</string>
+    <string name="logout">退出登录</string>
     <string name="equipment">设备</string>
     <string name="scene">场景</string>
     <string name="me">个人</string>

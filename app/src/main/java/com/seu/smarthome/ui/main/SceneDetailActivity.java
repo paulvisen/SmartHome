@@ -66,7 +66,7 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
         for(int i = 0; i < 3; ++i) {
             ManualTask task = new ManualTask();
             task.taskType = Task.TASK_TYPE_LIGHT;
-            task.quatity = 1;
+            task.amount = 1;
             list.add(task);
             DelayTask task2 = new DelayTask();
             task2.delayTime = 1;
@@ -154,15 +154,15 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
                     switch (temp.taskType)
                     {
                         case Task.TASK_TYPE_LIGHT:
-                            itemViewHolder.textView.setText("智能照明 " + (temp.quatity > 0 ? "开启" : "关闭"));
+                            itemViewHolder.textView.setText("智能照明 " + (temp.amount > 0 ? "开启" : "关闭"));
                             itemViewHolder.imageView.setImageResource(R.mipmap.light);
                             break;
                         case Task.TASK_TYPE_WATER:
-                            itemViewHolder.textView.setText("智能浇水 浇水量" + Integer.toString(temp.quatity));
+                            itemViewHolder.textView.setText("智能浇水 浇水量" + Integer.toString(temp.amount));
                             itemViewHolder.imageView.setImageResource(R.mipmap.water);
                             break;
                         case Task.TASK_TYPE_FEED:
-                            itemViewHolder.textView.setText("智能喂食 喂食量" + Integer.toString(temp.quatity));
+                            itemViewHolder.textView.setText("智能喂食 喂食量" + Integer.toString(temp.amount));
                             itemViewHolder.imageView.setImageResource(R.mipmap.pet);
                             break;
                     }

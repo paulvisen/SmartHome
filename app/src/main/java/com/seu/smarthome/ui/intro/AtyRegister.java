@@ -11,9 +11,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.ui.base.BaseActivity;
 import com.seu.smarthome.util.LogUtils;
@@ -73,6 +75,10 @@ public class AtyRegister extends BaseActivity {
         mListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!APP.networkConnected){
+                    Toast.makeText(AtyRegister.this, "请连接网络", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 register();
             }
         };
@@ -118,12 +124,11 @@ public class AtyRegister extends BaseActivity {
                 if(j == null){
                     return;
                 }
-                String id = j.optString("id");
+                //String id = j.optString("id");
                 String token = j.optString("token");
                 SharedPreferences sp = getSharedPreferences(StrUtils.SP_USER,MODE_PRIVATE);
-                sp.edit().putString(StrUtils.SP_USER_ID,id)
-                        .putString(StrUtils.SP_USER_TOKEN,token).apply();
-                Intent i = new Intent(AtyRegister.this,AtyEditInfo.class);
+                sp.edit().putString(StrUtils.SP_USER_TOKEN, token).apply();
+                Intent i = new Intent(AtyRegister.this,AtyLogin.class);
                 startActivity(i);
             }
         });

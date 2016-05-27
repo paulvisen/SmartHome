@@ -15,7 +15,8 @@
             android:id="@+id/fgt_me_me"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 app:placeholderImage="@mipmap/default_avatar"
@@ -61,7 +62,8 @@
         <LinearLayout
             android:id="@+id/fgt_me_activity"
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground">
 
             <ImageView
                 android:layout_gravity="center_vertical"
@@ -97,7 +99,8 @@
         <LinearLayout
             android:id="@+id/fgt_me_setting"
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground">
 
             <ImageView
                 android:layout_gravity="center_vertical"
@@ -129,7 +132,8 @@
         <LinearLayout
             android:id="@+id/fgt_me_about"
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground">
 
             <ImageView
                 android:layout_gravity="center_vertical"

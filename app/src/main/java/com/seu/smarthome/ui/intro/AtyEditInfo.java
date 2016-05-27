@@ -49,9 +49,6 @@ import com.seu.smarthome.widgt.WSwitch;
 public class AtyEditInfo extends BaseActivity {
     private static final String TAG = "AtyEditInfo";
 
-    public static final String INTENT_EDIT = "intent_edit";
-    public static final String INTENT_INFO = "intent_info";
-    private boolean mEdit;
     private User mUser;
     //private boolean
 
@@ -79,19 +76,12 @@ public class AtyEditInfo extends BaseActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         bindViews();
 
-        /*mEdit = getIntent().getBooleanExtra(INTENT_EDIT,false);
-        if(mEdit){
-            String info = getIntent().getStringExtra(INTENT_INFO);
-            try {
-                mUser = User.fromJSON(new JSONObject(info));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            showUserInfo();
-        }*/
+        mUser = getIntent().getParcelableExtra("user_info");
+        showUserInfo();
     }
 
     private void bindViews(){
+
         mDrawAvatar = (SimpleDraweeView) findViewById(R.id.aty_editinfo_avatar);
         etName = (EditText) findViewById(R.id.aty_editinfo_edittext_name);
         swGender = (WSwitch) findViewById(R.id.aty_editinfo_switch_gender);
@@ -124,7 +114,7 @@ public class AtyEditInfo extends BaseActivity {
         mDrawAvatar.setImageURI(Uri.parse(StrUtils.thumForID(mUser.ID + "")));
         etName.setText(mUser.username);
         boolean male = getResources().getString(R.string.male).equals(mUser.gender);
-        swGender.setOn(true);
+        swGender.setOn(male);
         etPhone.setText(mUser.phone);
         etWeChat.setText(mUser.wechat);
         etQQ.setText(mUser.qq);
@@ -162,7 +152,7 @@ public class AtyEditInfo extends BaseActivity {
                     return;
                 }
                 if (mAvatarPath == null) {
-                    uploadImageReturned();
+                    finish();
                 } else {
                     uploadAvatar();
                 }
@@ -178,26 +168,16 @@ public class AtyEditInfo extends BaseActivity {
         OkHttpUtils.uploadBitmap(StrUtils.UPLOAD_AVATAR_URL, p, avatarBitmap, StrUtils.MEDIA_TYPE_IMG, TAG, new OkHttpUtils.SimpleOkCallBack() {
             @Override
             public void onFailure(IOException e) {
-                uploadImageReturned();
+                finish();
             }
 
             @Override
             public void onResponse(String s) {
-                uploadImageReturned();
+                finish();
                 ImagePipeline imagePipeline = Fresco.getImagePipeline();
                 imagePipeline.evictFromCache(Uri.parse(StrUtils.thumForID(mUser.ID + "")));
             }
         });
-    }
-    private void uploadImageReturned(){
-        if(mEdit){
-            finish();
-        }else {
-            Intent i = new Intent(AtyEditInfo.this, AtyLogin.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            i.putExtra(AtyLogin.INTENT_CLEAR, true);
-            startActivity(i);
-        }
     }
 
     private void makeToast(int string_id){

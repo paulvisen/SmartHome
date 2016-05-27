@@ -2,12 +2,14 @@ package com.seu.smarthome.ui.main;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +17,30 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.model.Device;
+import com.seu.smarthome.model.ManualTask;
+import com.seu.smarthome.model.Task;
+import com.seu.smarthome.model.TimedTask;
+import com.seu.smarthome.util.OkHttpUtils;
+import com.seu.smarthome.util.StrUtils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DeviceListActivity extends AppCompatActivity {
+
+    private ManualTask selectedTask;
+
+    private DeviceListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +53,8 @@ public class DeviceListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         List<Device> list = new ArrayList<>();
-
-        for(int i = 0; i < 3; ++i){
+        for(int i=0;i<3;i++)
+        {
             Device item=new Device();
             item.deviceType = Device.DEVICE_TYPE_LIGHT;
             item.deviceName = "智能照明";
@@ -50,12 +68,42 @@ public class DeviceListActivity extends AppCompatActivity {
             item.deviceName = "智能喂食";
             list.add(item);
         }
-
         RecyclerView deviceList = (RecyclerView)findViewById(R.id.device_list);
         deviceList.setLayoutManager(new LinearLayoutManager(this));
         deviceList.setHasFixedSize(true);
-        DeviceListAdapter adapter = new DeviceListAdapter(this, list);
+        adapter = new DeviceListAdapter(this, list);
         deviceList.setAdapter(adapter);
+
+        selectedTask = new ManualTask();
+
+    }
+
+    private void updateData(){
+        if(!APP.networkConnected){
+            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Map<String,String> map = new HashMap<>();
+        map.put("token", StrUtils.token());
+        OkHttpUtils.post(StrUtils.GET_DEVICE_LIST_URL, map, new OkHttpUtils.SimpleOkCallBack() {
+            @Override
+            public void onResponse(String s) {
+                JSONObject j = OkHttpUtils.parseJSON(DeviceListActivity.this, s);
+                if (j == null) {
+                    return;
+                }
+                JSONArray array = j.optJSONArray("devicelist");
+                if (array == null)
+                    return;
+                List<Device> list = new ArrayList<Device>();
+                for (int i = 0; i < array.length(); ++i) {
+                    Device device = Device.fromJSON(array.optJSONObject(i));
+                    list.add(device);
+                }
+                adapter.setList(list);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -68,6 +116,10 @@ public class DeviceListActivity extends AppCompatActivity {
             this.context = context;
         }
 
+        public void setList(List<Device> itemList){
+            this.list = itemList;
+        }
+
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             RecyclerView.ViewHolder viewHolder;
@@ -78,7 +130,7 @@ public class DeviceListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Device item = list.get(position);
+            final Device item = list.get(position);
             if(item != null){
                 ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
                 switch (item.deviceType)
@@ -89,8 +141,33 @@ public class DeviceListActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 AlertDialog.Builder dialog=new AlertDialog.Builder(context);
-                                dialog.setSingleChoiceItems(new String[]{"开启", "关闭"}, 0, null);
-                                dialog.setPositiveButton("确定", null);
+                                dialog.setSingleChoiceItems(new String[]{"开启", "关闭"}, 1, new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog,int which){
+                                        switch(which){
+                                            case 0:
+                                                selectedTask.amount = 1;
+                                                break;
+                                            case 1:
+                                                selectedTask.amount = 0;
+                                                break;
+                                        }
+                                    }
+                                });
+                                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                                    @Override
+                                    public void onClick(DialogInterface dialog,int which){
+                                        Intent intent = new Intent();
+                                        selectedTask.deviceID = item.id;
+                                        selectedTask.taskType = item.deviceType;
+                                        selectedTask.deviceName = item.deviceName;
+
+                                        intent.putExtra("task", selectedTask);
+                                        setResult(RESULT_OK, intent);
+                                        finish();
+                                    }
+                                });
                                 dialog.setNegativeButton("取消", null);
                                 dialog.show();
                             }
@@ -99,12 +176,31 @@ public class DeviceListActivity extends AppCompatActivity {
                     case Device.DEVICE_TYPE_WATER:
                         itemViewHolder.deviceTypeImage.setImageResource(R.mipmap.water);
                         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            EditText editText = new EditText(context);
                             @Override
                             public void onClick(View v) {
                                 AlertDialog.Builder dialog=new AlertDialog.Builder(context);
+                                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
                                 dialog.setTitle("浇水量");
-                                dialog.setView(new EditText(context));
-                                dialog.setPositiveButton("确定", null);
+                                dialog.setView(editText);
+                                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                                    @Override
+                                    public void onClick(DialogInterface dialog,int which){
+                                        if(!editText.getText().toString().isEmpty()){
+                                            Intent intent = new Intent();
+                                            selectedTask.deviceID = item.id;
+                                            selectedTask.taskType = item.deviceType;
+                                            selectedTask.deviceName = item.deviceName;
+                                            selectedTask.amount = Integer.parseInt(editText.getText().toString());
+                                            intent.putExtra("task", selectedTask);
+                                            setResult(RESULT_OK, intent);
+                                        }
+                                        else{
+                                            setResult(RESULT_CANCELED);
+                                        }
+                                        finish();
+                                    }
+                                });
                                 dialog.setNegativeButton("取消", null);
                                 dialog.show();
                             }
@@ -113,12 +209,31 @@ public class DeviceListActivity extends AppCompatActivity {
                     case Device.DEVICE_TYPE_FEED:
                         itemViewHolder.deviceTypeImage.setImageResource(R.mipmap.pet);
                         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                            EditText editText = new EditText(context);
                             @Override
                             public void onClick(View v) {
                                 AlertDialog.Builder dialog=new AlertDialog.Builder(context);
+                                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
                                 dialog.setTitle("喂食量");
-                                dialog.setView(new EditText(context));
-                                dialog.setPositiveButton("确定", null);
+                                dialog.setView(editText);
+                                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                                    @Override
+                                    public void onClick(DialogInterface dialog,int which){
+                                        if(!editText.getText().toString().isEmpty()){
+                                            Intent intent = new Intent();
+                                            selectedTask.deviceID = item.id;
+                                            selectedTask.taskType = item.deviceType;
+                                            selectedTask.deviceName = item.deviceName;
+                                            selectedTask.amount = Integer.parseInt(editText.getText().toString());
+                                            intent.putExtra("task", selectedTask);
+                                            setResult(RESULT_OK, intent);
+                                        }
+                                        else{
+                                            setResult(RESULT_CANCELED);
+                                        }
+                                        finish();
+                                    }
+                                });
                                 dialog.setNegativeButton("取消", null);
                                 dialog.show();
                             }

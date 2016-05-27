@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import com.seu.smarthome.model.ManualTask;
 import com.seu.smarthome.model.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,6 +37,35 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
 
     private RecyclerView sceneTaskList;
     private RelativeLayout startMode;
+
+    private List<Task> list;
+    private SceneTaskListAdapter adapter;
+
+    private ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.RIGHT){
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            int fromPosition = viewHolder.getAdapterPosition();
+            int toPosition = target.getAdapterPosition();
+            if (fromPosition < toPosition) {
+                for (int i = fromPosition; i < toPosition; i++) {
+                    Collections.swap(list, i, i + 1);
+                }
+            } else {
+                for (int i = fromPosition; i > toPosition; i--) {
+                    Collections.swap(list, i, i - 1);
+                }
+            }
+            adapter.notifyItemMoved(fromPosition, toPosition);
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            list.remove(position);
+            adapter.notifyItemRemoved(position);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +85,12 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
         sceneTaskList = (RecyclerView) findViewById(R.id.scene_task_list);
         sceneTaskList.setLayoutManager(new LinearLayoutManager(this));
         sceneTaskList.setHasFixedSize(true);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(sceneTaskList);
 
-        List<Task> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            ManualTask task = new ManualTask();
-            task.taskType = Task.TASK_TYPE_LIGHT;
-            task.quatity = 1;
-            list.add(task);
-            DelayTask task2 = new DelayTask();
-            task2.delayTime = 1;
-            list.add(task2);
-        }
-        SceneTaskListAdapter adapter=new SceneTaskListAdapter(this,list);
+        list = new ArrayList<>();
+
+        adapter=new SceneTaskListAdapter(this,list);
         sceneTaskList.setAdapter(adapter);
 
         startMode=(RelativeLayout)findViewById(R.id.start_mode);
@@ -84,12 +109,17 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.device_add_button:
                 intent.setClass(this, DeviceListActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 2);
                 break;
             case R.id.delay_add_button:
                 new TimePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        DelayTask task = new DelayTask();
+                        task.delayTime = hourOfDay * 60 + minute;
+                        list.add(task);
+                        adapter.notifyDataSetChanged();
+                        sceneTaskList.scrollToPosition(list.size()-1);
                     }
                 }, 0, 0, true).show();
         }
@@ -123,6 +153,15 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
                     else
                         textView.setText("手动启动");
                 }
+                break;
+            case 2:
+                if(resultCode == RESULT_OK){
+                    ManualTask task = data.getParcelableExtra("task");
+                    list.add(task);
+                    adapter.notifyDataSetChanged();
+                    sceneTaskList.scrollToPosition(list.size()-1);
+                }
+                break;
         }
     }
 
@@ -150,7 +189,10 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
                 if(task.taskType == Task.TASK_TYPE_DELAY)
                 {
                     DelayTask temp = (DelayTask)task;
-                    itemViewHolder.textView.setText("延时" + temp.delayTime + "分");
+                    String text = "延时";
+                    text += temp.delayTime/60 > 0 ? temp.delayTime/60 + "时" : "";
+                    text += temp.delayTime%60 > 0 ? temp.delayTime%60 + "分" : "";
+                    itemViewHolder.textView.setText(text);
                     itemViewHolder.imageView.setImageResource(R.mipmap.clock2);
                 }
                 else
@@ -159,15 +201,15 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
                     switch (temp.taskType)
                     {
                         case Task.TASK_TYPE_LIGHT:
-                            itemViewHolder.textView.setText("智能照明 " + (temp.quatity > 0 ? "开启" : "关闭"));
+                            itemViewHolder.textView.setText(temp.deviceName + (temp.amount > 0 ? " 开启" : " 关闭"));
                             itemViewHolder.imageView.setImageResource(R.mipmap.light);
                             break;
                         case Task.TASK_TYPE_WATER:
-                            itemViewHolder.textView.setText("智能浇水 浇水量" + Integer.toString(temp.quatity));
+                            itemViewHolder.textView.setText(temp.deviceName +" 浇水量： " + Integer.toString(temp.amount));
                             itemViewHolder.imageView.setImageResource(R.mipmap.water);
                             break;
                         case Task.TASK_TYPE_FEED:
-                            itemViewHolder.textView.setText("智能喂食 喂食量" + Integer.toString(temp.quatity));
+                            itemViewHolder.textView.setText(temp.deviceName +" 喂食量： " + Integer.toString(temp.amount));
                             itemViewHolder.imageView.setImageResource(R.mipmap.pet);
                             break;
                     }

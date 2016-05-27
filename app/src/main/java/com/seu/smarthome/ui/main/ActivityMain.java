@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.seu.smarthome.R;
+import com.seu.smarthome.ui.intro.AtyLogin;
 import com.seu.smarthome.widgt.TabItem;
 
 /**
@@ -36,6 +37,14 @@ public class ActivityMain extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getIntent().getBooleanExtra("logout", false))
+        {
+            Intent i = new Intent(this,AtyLogin.class);
+            startActivity(i);
+            finish();
+            return;
+        }
         setContentView(R.layout.aty_main);
         setTitle("");
 
