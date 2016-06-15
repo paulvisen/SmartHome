@@ -85,7 +85,7 @@ public class WifiListActivity extends AppCompatActivity {
                 adapter.setData(list);
                 progressBar.setVisibility(View.GONE);
                 if(list == null)
-                    Toast.makeText(context, "找不到可用wifi", Toast.LENGTH_SHORT);
+                    Toast.makeText(context, "找不到可用wifi", Toast.LENGTH_SHORT).show();
             }
             else if(intent.getAction().endsWith(wifiManager.WIFI_STATE_CHANGED_ACTION)){
                 if(wifiManager.isWifiEnabled()) {

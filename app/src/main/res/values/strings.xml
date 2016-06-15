@@ -46,6 +46,8 @@
 
     <string name="scene_detail">场景详情</string>
 
+    <string name="check_for_update">检查更新</string>
+
 
     <string name="network_error">网络异常</string>
     <string name="setting">设置</string>
