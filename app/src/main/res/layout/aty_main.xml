@@ -24,12 +24,22 @@
             android:textColor="@android:color/white"/>
 
     </android.support.v7.widget.Toolbar>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_content"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/aty_main_button_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/menu_button_add"
+            android:layout_margin="16dp"
+            android:layout_gravity="bottom|right"/>
+    </android.support.design.widget.CoordinatorLayout>
 
     <View
         android:background="@color/grey_gap"
