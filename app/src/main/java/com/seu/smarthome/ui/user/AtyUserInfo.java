@@ -17,8 +17,7 @@ import android.widget.Toast;
 import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.model.User;
-import com.seu.smarthome.ui.intro.AtyEditInfo;
-import com.seu.smarthome.ui.intro.AtyLogin;
+import com.seu.smarthome.ui.base.BaseActivity;
 import com.seu.smarthome.ui.main.ActivityMain;
 import com.seu.smarthome.util.DimensionUtils;
 import com.seu.smarthome.util.OkHttpUtils;
@@ -32,10 +31,11 @@ import java.util.Map;
 /**
  * Created by jwcui on 2016/5/1.
  */
-public class AtyUserInfo extends AppCompatActivity implements View.OnClickListener{
+public class AtyUserInfo extends BaseActivity implements View.OnClickListener{
 
     private User user;
     private LinearLayout mWholeLayout;
+    private final static String TAG = "AtyUserInfo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,17 +44,23 @@ public class AtyUserInfo extends AppCompatActivity implements View.OnClickListen
         findViewById(R.id.aty_info_more).setOnClickListener(this);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        getUserInfo();
+    }
+
     private void getUserInfo(){
         if(!APP.networkConnected){
-            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
+            Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
             return;
         }
         Map<String,String> map = new HashMap<>();
         map.put("token", StrUtils.token());
-        OkHttpUtils.post(StrUtils.GET_PROFILE_URL, map, new OkHttpUtils.SimpleOkCallBack() {
+        OkHttpUtils.post(StrUtils.GET_PROFILE_URL, map, TAG, new OkHttpUtils.SimpleOkCallBack() {
             @Override
             public void onResponse(String s) {
-                JSONObject j = OkHttpUtils.parseJSON(AtyUserInfo.this, s);
+                JSONObject j = OkHttpUtils.parseJSON(APP.context(), s);
                 if (j == null)
                     return;
                 user = User.fromJSON(j);
@@ -103,5 +109,10 @@ public class AtyUserInfo extends AppCompatActivity implements View.OnClickListen
                 wmlp.width = DimensionUtils.getDisplay().widthPixels;
                 dialog.show();
         }
+    }
+
+    @Override
+    protected String tag() {
+        return TAG;
     }
 }

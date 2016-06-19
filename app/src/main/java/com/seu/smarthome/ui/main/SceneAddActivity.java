@@ -20,7 +20,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.model.DelayTask;
 import com.seu.smarthome.model.ManualTask;
@@ -115,6 +117,11 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
                 new TimePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if(hourOfDay == 0 && minute == 0)
+                        {
+                            Toast.makeText(APP.context(), "延时时间不应为0", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         DelayTask task = new DelayTask();
                         task.delayTime = hourOfDay * 60 + minute;
                         list.add(task);

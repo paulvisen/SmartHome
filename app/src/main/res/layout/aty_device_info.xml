@@ -36,7 +36,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="0000"
             android:textSize="18sp"/>
     </RelativeLayout>
     <View
@@ -62,7 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="开启"
             android:textSize="18sp"/>
     </RelativeLayout>
 
@@ -89,7 +87,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="0000"
             android:textSize="18sp"/>
     </RelativeLayout>
 

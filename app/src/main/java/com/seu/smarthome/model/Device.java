@@ -20,7 +20,18 @@ public class Device{
         Device device = new Device();
         device.id = j.optInt("deviceid");
         device.deviceName = j.optString("name");
-        device.deviceType = j.optInt("type");
+        String type = j.optString("type");
+        switch(type){
+            case "照明":
+                device.deviceType = DEVICE_TYPE_LIGHT;
+                break;
+            case "喂食":
+                device.deviceType = DEVICE_TYPE_FEED;
+                break;
+            case "浇花":
+                device.deviceType = DEVICE_TYPE_WATER;
+                break;
+        }
         return device;
     }
 }

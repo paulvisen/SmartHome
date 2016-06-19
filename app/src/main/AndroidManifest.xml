@@ -27,7 +27,7 @@
         <activity android:name=".ui.intro.AtyLogin" />
         <activity android:name=".ui.intro.AtyRegister" />
         <activity android:name=".ui.intro.AtyContract" />
-        <activity android:name=".ui.intro.AtyEditInfo" />
+        <activity android:name=".ui.user.AtyEditInfo" />
         <activity android:name=".ui.intro.AtyResetPasswd" />
         <activity android:name=".ui.main.ActivityMain" />
         <activity android:name=".ui.main.DeviceAddActivity" />

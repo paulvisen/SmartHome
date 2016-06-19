@@ -26,6 +26,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <ToggleButton
+            android:id="@+id/aty_device_control_button"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_centerInParent="true"

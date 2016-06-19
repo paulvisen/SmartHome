@@ -29,6 +29,12 @@ public class APP extends Application {
         registerReceiver(receiver, filter);
     }
 
+    @Override
+    public void onTerminate(){
+        super.onTerminate();
+        unregisterReceiver(receiver);
+    }
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

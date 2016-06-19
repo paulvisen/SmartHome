@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.model.Device;
+import com.seu.smarthome.ui.base.BaseFragment;
 import com.seu.smarthome.util.OkHttpUtils;
 import com.seu.smarthome.util.StrUtils;
 
@@ -31,7 +32,8 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016-04-21.
  */
-public class DeviceFragment extends Fragment {
+public class DeviceFragment extends BaseFragment {
+    private final static String TAG = "DeviceFragment";
 
     private RecyclerView deviceList;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -47,16 +49,16 @@ public class DeviceFragment extends Fragment {
         deviceList.setHasFixedSize(true);
         swipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.fgt_device_swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh(){
+            public void onRefresh() {
+                updateData();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
         List<Device> list=new ArrayList<>();
-
-        for(int i=0;i<3;i++)
+        /*for(int i=0;i<3;i++)
         {
             Device item=new Device();
             item.deviceType = Device.DEVICE_TYPE_LIGHT;
@@ -70,20 +72,26 @@ public class DeviceFragment extends Fragment {
             item.deviceType = Device.DEVICE_TYPE_FEED;
             item.deviceName = "智能喂食";
             list.add(item);
-        }
+        }*/
         adapter=new DeviceListAdapter(list);
         deviceList.setAdapter(adapter);
         return view;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateData();
+    }
+
     private void updateData(){
         if(!APP.networkConnected){
-            Toast.makeText(getActivity(), "请连接网络", Toast.LENGTH_SHORT).show();
+            Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
             return;
         }
         Map<String,String> map = new HashMap<>();
         map.put("token", StrUtils.token());
-        OkHttpUtils.post(StrUtils.GET_DEVICE_LIST_URL, map, new OkHttpUtils.SimpleOkCallBack() {
+        OkHttpUtils.post(StrUtils.GET_DEVICE_LIST_URL, map, TAG, new OkHttpUtils.SimpleOkCallBack() {
             @Override
             public void onResponse(String s) {
                 JSONObject j = OkHttpUtils.parseJSON(getActivity(), s);
@@ -93,7 +101,7 @@ public class DeviceFragment extends Fragment {
                 JSONArray array = j.optJSONArray("devicelist");
                 if (array == null)
                     return;
-                List<Device> list = new ArrayList<Device>();
+                List<Device> list = new ArrayList<>();
                 for (int i = 0; i < array.length(); ++i) {
                     Device device = Device.fromJSON(array.optJSONObject(i));
                     list.add(device);
@@ -174,6 +182,11 @@ public class DeviceFragment extends Fragment {
         }
 
 
+    }
+
+    @Override
+    protected String tag() {
+        return TAG;
     }
 
 }

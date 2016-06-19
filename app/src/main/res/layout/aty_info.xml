@@ -36,6 +36,14 @@
             app:roundAsCircle="true"
             app:roundingBorderColor="@color/white"
             app:roundingBorderWidth="2dp" />
+        <ImageView
+            android:id="@+id/aty_info_gender"
+            android:padding="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/aty_info_avatar"
+            android:src="@mipmap/boy"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
     </RelativeLayout>
 

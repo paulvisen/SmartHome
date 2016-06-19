@@ -33,7 +33,6 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
     private RecyclerView sceneTaskList;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RelativeLayout startMode;
-    private RelativeLayout useScene;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -78,7 +77,6 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
 
         startMode=(RelativeLayout)findViewById(R.id.start_mode);
         startMode.setOnClickListener(this);
-        useScene = (RelativeLayout)findViewById(R.id.use_scene);
 
     }
 
@@ -109,11 +107,9 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
                     TextView textView = (TextView) findViewById(R.id.start_mode_text);
                     if(returnData) {
                         textView.setText("定时启动");
-                        useScene.setVisibility(View.GONE);
                     }
                     else {
                         textView.setText("手动启动");
-                        useScene.setVisibility(View.VISIBLE);
                     }
                 }
         }

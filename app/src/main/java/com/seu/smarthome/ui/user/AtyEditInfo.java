@@ -1,6 +1,5 @@
-package com.seu.smarthome.ui.intro;
+package com.seu.smarthome.ui.user;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -11,12 +10,7 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +19,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.core.ImagePipeline;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -33,6 +26,8 @@ import java.io.IOException;
 import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+
+import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.model.User;
 import com.seu.smarthome.ui.base.BaseActivity;
@@ -181,7 +176,7 @@ public class AtyEditInfo extends BaseActivity {
     }
 
     private void makeToast(int string_id){
-        Toast.makeText(this, string_id,Toast.LENGTH_SHORT).show();
+        Toast.makeText(APP.context(), string_id,Toast.LENGTH_SHORT).show();
     }
 
     @Override

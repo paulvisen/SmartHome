@@ -25,6 +25,7 @@ import com.seu.smarthome.model.Device;
 import com.seu.smarthome.model.ManualTask;
 import com.seu.smarthome.model.Task;
 import com.seu.smarthome.model.TimedTask;
+import com.seu.smarthome.ui.base.BaseActivity;
 import com.seu.smarthome.util.OkHttpUtils;
 import com.seu.smarthome.util.StrUtils;
 
@@ -36,11 +37,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DeviceListActivity extends AppCompatActivity {
+public class DeviceListActivity extends BaseActivity {
 
     private ManualTask selectedTask;
 
     private DeviceListAdapter adapter;
+
+    private final static String TAG = "DeviceListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class DeviceListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         List<Device> list = new ArrayList<>();
-        for(int i=0;i<3;i++)
+        /*for(int i=0;i<3;i++)
         {
             Device item=new Device();
             item.deviceType = Device.DEVICE_TYPE_LIGHT;
@@ -67,7 +70,7 @@ public class DeviceListActivity extends AppCompatActivity {
             item.deviceType = Device.DEVICE_TYPE_FEED;
             item.deviceName = "智能喂食";
             list.add(item);
-        }
+        }*/
         RecyclerView deviceList = (RecyclerView)findViewById(R.id.device_list);
         deviceList.setLayoutManager(new LinearLayoutManager(this));
         deviceList.setHasFixedSize(true);
@@ -75,17 +78,17 @@ public class DeviceListActivity extends AppCompatActivity {
         deviceList.setAdapter(adapter);
 
         selectedTask = new ManualTask();
-
+        updateData();
     }
 
     private void updateData(){
         if(!APP.networkConnected){
-            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
+            Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
             return;
         }
         Map<String,String> map = new HashMap<>();
         map.put("token", StrUtils.token());
-        OkHttpUtils.post(StrUtils.GET_DEVICE_LIST_URL, map, new OkHttpUtils.SimpleOkCallBack() {
+        OkHttpUtils.post(StrUtils.GET_DEVICE_LIST_URL, map, TAG, new OkHttpUtils.SimpleOkCallBack() {
             @Override
             public void onResponse(String s) {
                 JSONObject j = OkHttpUtils.parseJSON(DeviceListActivity.this, s);
@@ -95,7 +98,7 @@ public class DeviceListActivity extends AppCompatActivity {
                 JSONArray array = j.optJSONArray("devicelist");
                 if (array == null)
                     return;
-                List<Device> list = new ArrayList<Device>();
+                List<Device> list = new ArrayList<>();
                 for (int i = 0; i < array.length(); ++i) {
                     Device device = Device.fromJSON(array.optJSONObject(i));
                     list.add(device);
@@ -140,8 +143,9 @@ public class DeviceListActivity extends AppCompatActivity {
                         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v) {
+                                selectedTask.amount = 1;
                                 AlertDialog.Builder dialog=new AlertDialog.Builder(context);
-                                dialog.setSingleChoiceItems(new String[]{"开启", "关闭"}, 1, new DialogInterface.OnClickListener()
+                                dialog.setSingleChoiceItems(new String[]{"开启", "关闭"}, 0, new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialog,int which){
@@ -260,5 +264,11 @@ public class DeviceListActivity extends AppCompatActivity {
                 deviceName = (TextView)view.findViewById(R.id.device_name);
             }
         }
+
+
+    }
+    @Override
+    protected String tag(){
+        return TAG;
     }
 }

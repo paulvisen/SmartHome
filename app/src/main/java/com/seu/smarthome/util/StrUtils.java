@@ -79,6 +79,7 @@ public final class StrUtils {
     public static final String SP_USER = "StrUtils_sp_user";
     public static final String SP_USER_TOKEN = SP_USER + "_token";
     public static final String SP_USER_ID = SP_USER + "_id";
+    public static final String SP_UEER_NAME = SP_USER + "_name";
     public static final String SP_USER_CAN_FOUND = SP_USER +"_can_found";
 
     public static final MediaType MEDIA_TYPE_IMG = MediaType.parse("image/*");
@@ -91,6 +92,11 @@ public final class StrUtils {
     public static String id(){
         SharedPreferences sp = APP.context().getSharedPreferences(SP_USER, Context.MODE_PRIVATE);
         return sp.getString(SP_USER_ID,"");
+    }
+
+    public static String username(){
+        SharedPreferences sp = APP.context().getSharedPreferences(SP_USER, Context.MODE_PRIVATE);
+        return sp.getString(SP_UEER_NAME,"");
     }
 
     public static String md5(String input){

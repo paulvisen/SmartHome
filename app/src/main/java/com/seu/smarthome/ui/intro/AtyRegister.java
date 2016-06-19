@@ -76,7 +76,7 @@ public class AtyRegister extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(!APP.networkConnected){
-                    Toast.makeText(AtyRegister.this, "请连接网络", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 register();
@@ -111,7 +111,7 @@ public class AtyRegister extends BaseActivity {
     }
 
     private void register(){
-        String name = etName.getText().toString();
+        final String name = etName.getText().toString();
         String passMD5 = StrUtils.md5(etPass.getText().toString());
         ArrayMap<String,String> param = new ArrayMap<>();
         param.put("username",name);
@@ -124,10 +124,10 @@ public class AtyRegister extends BaseActivity {
                 if(j == null){
                     return;
                 }
-                //String id = j.optString("id");
+                String id = j.optString("id");
                 String token = j.optString("token");
                 SharedPreferences sp = getSharedPreferences(StrUtils.SP_USER,MODE_PRIVATE);
-                sp.edit().putString(StrUtils.SP_USER_TOKEN, token).apply();
+                sp.edit().putString(StrUtils.SP_USER_TOKEN, token).putString(StrUtils.SP_USER_ID, id).putString(StrUtils.SP_UEER_NAME, name).apply();
                 Intent i = new Intent(AtyRegister.this,AtyLogin.class);
                 startActivity(i);
             }
