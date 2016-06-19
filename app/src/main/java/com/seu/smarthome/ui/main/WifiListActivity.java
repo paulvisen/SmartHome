@@ -22,6 +22,10 @@ import android.widget.Toast;
 
 import com.seu.smarthome.R;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class WifiListActivity extends AppCompatActivity {
@@ -81,7 +85,28 @@ public class WifiListActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().endsWith(wifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
-                list = wifiManager.getScanResults();
+                Comparator<ScanResult> comparator = new Comparator<ScanResult>() {
+                    @Override
+                    public int compare(ScanResult lhs, ScanResult rhs) {
+                        return rhs.level - lhs.level;
+                    }
+                };
+                List<ScanResult> wifiList = wifiManager.getScanResults();
+                if(wifiList == null)
+                    return;
+                Collections.sort(wifiList, comparator);
+                list = new ArrayList<>();
+                boolean added;
+                for(int i = 0; i < wifiList.size(); ++i){
+                    added = false;
+                    for(int j = 0; j < i; ++j){
+                        if(wifiList.get(i).SSID.equals(wifiList.get(j).SSID)){
+                            added = true;
+                        }
+                    }
+                    if(!added)
+                        list.add(wifiList.get(i));
+                }
                 adapter.setData(list);
                 progressBar.setVisibility(View.GONE);
                 if(list == null)
