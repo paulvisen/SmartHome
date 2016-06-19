@@ -94,16 +94,25 @@
         android:paddingBottom="5dp"
         android:paddingLeft="20dp"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/scene_task_list_swipe_layout"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/scene_task_list"
+        android:layout_height="wrap_content">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/scene_task_list_swipe_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/scene_task_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/edit"
+            android:layout_margin="16dp"
+            android:layout_gravity="bottom|end"/>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

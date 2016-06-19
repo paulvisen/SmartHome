@@ -44,42 +44,31 @@
     <string name="device_name">设备名</string>
     <string name="device_status">设备状态</string>
 
-    <string name="scene_detail">场景详情</string>
-
     <string name="check_for_update">检查更新</string>
 
 
     <string name="network_error">网络异常</string>
     <string name="setting">设置</string>
     <string name="about">关于</string>
-    <string name="more_than_99">99+</string>
     <string name="loading">正在加载</string>
     <string name="basic_info">基本信息</string>
     <string name="name">姓名</string>
-    <string name="year">年龄</string>
     <string name="contact_info">联系方式</string>
     <string name="phone">手机号</string>
     <string name="QQ">QQ</string>
     <string name="wechat">微信</string>
-    <string name="please_input_title">标题</string>
     <string name="committing">正在上传</string>
     <string name="register_weme_user">注册智居(智能家居客户端)用户</string>
     <string name="user_contract">用户协议</string>
     <string name="name_not_empty">用户名不能为空</string>
     <string name="password_long_6">密码至少6位</string>
     <string name="password_not_equal">密码不一致</string>
-    <string name="birth_not_empty">生日不能为空</string>
     <string name="phone_not_empty">手机号不能为空</string>
-    <string name="school_not_empty">学校不能为空</string>
-    <string name="choose_degree">请选择学历</string>
     <string name="male">男</string>
     <string name="female">女</string>
     <string name="person_info">个人信息</string>
     <string name="cancel">取消</string>
-    <string name="change_background">改变背景照</string>
-    <string name="my_qrcode">我的二维码</string>
     <string name="edit_info">修改个人信息</string>
-    <string name="birth">生日</string>
     <string name="cache_removed">清空缓存完毕</string>
     <string name="edit_fail">修改设置失败</string>
 
