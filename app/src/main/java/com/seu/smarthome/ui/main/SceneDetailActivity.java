@@ -1,27 +1,38 @@
 package com.seu.smarthome.ui.main;
 
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.model.DelayTask;
 import com.seu.smarthome.model.ManualTask;
 import com.seu.smarthome.model.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -30,9 +41,40 @@ import java.util.List;
  */
 public class SceneDetailActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private RecyclerView sceneTaskList;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RelativeLayout startMode;
+    private FloatingActionButton editButton;
+    private LinearLayout buttonBar;
+    private RecyclerView sceneTaskList;
+    private SceneTaskListAdapter adapter;
+    private List<Task> list;
+    private boolean editable = false;
+
+    private ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.RIGHT){
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            int fromPosition = viewHolder.getAdapterPosition();
+            int toPosition = target.getAdapterPosition();
+            if (fromPosition < toPosition) {
+                for (int i = fromPosition; i < toPosition; i++) {
+                    Collections.swap(list, i, i + 1);
+                }
+            } else {
+                for (int i = fromPosition; i > toPosition; i--) {
+                    Collections.swap(list, i, i - 1);
+                }
+            }
+            adapter.notifyItemMoved(fromPosition, toPosition);
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            list.remove(position);
+            adapter.notifyItemRemoved(position);
+        }
+    };
+    private ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -61,7 +103,7 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-        List<Task> list = new ArrayList<>();
+        list = new ArrayList<>();
         for(int i = 0; i < 3; ++i) {
             ManualTask task = new ManualTask();
             task.taskType = Task.TASK_TYPE_LIGHT;
@@ -72,26 +114,80 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
             list.add(task2);
         }
 
-        SceneTaskListAdapter adapter = new SceneTaskListAdapter(this, list);
+        adapter = new SceneTaskListAdapter(this, list);
         sceneTaskList.setAdapter(adapter);
 
-        startMode=(RelativeLayout)findViewById(R.id.start_mode);
+        RelativeLayout startMode=(RelativeLayout)findViewById(R.id.start_mode);
         startMode.setOnClickListener(this);
 
+        editButton = (FloatingActionButton) findViewById(R.id.aty_scene_detail_edit);
+        editButton.setOnClickListener(this);
+
+        buttonBar = (LinearLayout) findViewById(R.id.button_bar);
+        Button deviceAddButton = (Button)findViewById(R.id.device_add_button);
+        deviceAddButton.setOnClickListener(this);
+        Button delayAddButton = (Button)findViewById(R.id.delay_add_button);
+        delayAddButton.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        if(editable)
+            getMenuInflater().inflate(R.menu.menu_finish, menu);
+        return true;
     }
 
     @Override
     public void onClick(View view) {
         Intent intent = new Intent();
-        intent.setClass(this, TimeTaskActivity.class);
-        TextView textView = (TextView) findViewById(R.id.start_mode_text);
-        intent.putExtra("auto", textView.getText().toString() == "定时启动");
-        startActivityForResult(intent, 1);
+        switch(view.getId()){
+            case R.id.start_mode:
+                intent.setClass(this, TimeTaskActivity.class);
+                TextView textView = (TextView) findViewById(R.id.start_mode_text);
+                intent.putExtra("auto", textView.getText().toString() == "定时启动");
+                startActivityForResult(intent, 1);
+                break;
+            case R.id.aty_scene_detail_edit:
+                editButton.hide();
+                buttonBar.setVisibility(View.VISIBLE);
+                itemTouchHelper.attachToRecyclerView(sceneTaskList);
+                editable = true;
+                invalidateOptionsMenu();
+                break;
+            case R.id.device_add_button:
+                intent.setClass(this, DeviceListActivity.class);
+                startActivityForResult(intent, 2);
+                break;
+            case R.id.delay_add_button:
+                new TimePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        if(hourOfDay == 0 && minute == 0)
+                        {
+                            Toast.makeText(APP.context(), "延时时间不应为0", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        DelayTask task = new DelayTask();
+                        task.delayTime = hourOfDay * 60 + minute;
+                        list.add(task);
+                        adapter.notifyDataSetChanged();
+                        sceneTaskList.scrollToPosition(list.size()-1);
+                    }
+                }, 0, 0, true).show();
+        }
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == android.R.id.home){
             finish();
+        }
+        else{
+            editButton.show();
+            buttonBar.setVisibility(View.GONE);
+            itemTouchHelper.attachToRecyclerView(null);
+            editable = false;
+            invalidateOptionsMenu();
         }
         return true;
     }
@@ -112,6 +208,15 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
                         textView.setText("手动启动");
                     }
                 }
+                break;
+            case 2:
+                if(resultCode == RESULT_OK){
+                    ManualTask task = data.getParcelableExtra("task");
+                    list.add(task);
+                    adapter.notifyDataSetChanged();
+                    sceneTaskList.scrollToPosition(list.size()-1);
+                }
+                break;
         }
     }
 
@@ -141,7 +246,10 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
                 if(task.taskType == Task.TASK_TYPE_DELAY)
                 {
                     DelayTask temp = (DelayTask)task;
-                    itemViewHolder.textView.setText("延时" + temp.delayTime + "分");
+                    String text = "延时";
+                    text += temp.delayTime/60 > 0 ? temp.delayTime/60 + "时" : "";
+                    text += temp.delayTime%60 > 0 ? temp.delayTime%60 + "分" : "";
+                    itemViewHolder.textView.setText(text);
                     itemViewHolder.imageView.setImageResource(R.mipmap.clock2);
                 }
                 else
@@ -150,15 +258,15 @@ public class SceneDetailActivity extends AppCompatActivity implements View.OnCli
                     switch (temp.taskType)
                     {
                         case Task.TASK_TYPE_LIGHT:
-                            itemViewHolder.textView.setText("智能照明 " + (temp.amount > 0 ? "开启" : "关闭"));
+                            itemViewHolder.textView.setText(temp.deviceName + (temp.amount > 0 ? " 开启" : " 关闭"));
                             itemViewHolder.imageView.setImageResource(R.mipmap.light);
                             break;
                         case Task.TASK_TYPE_WATER:
-                            itemViewHolder.textView.setText("智能浇水 浇水量" + Integer.toString(temp.amount));
+                            itemViewHolder.textView.setText(temp.deviceName +" 浇水量： " + Integer.toString(temp.amount));
                             itemViewHolder.imageView.setImageResource(R.mipmap.water);
                             break;
                         case Task.TASK_TYPE_FEED:
-                            itemViewHolder.textView.setText("智能喂食 喂食量" + Integer.toString(temp.amount));
+                            itemViewHolder.textView.setText(temp.deviceName +" 喂食量： " + Integer.toString(temp.amount));
                             itemViewHolder.imageView.setImageResource(R.mipmap.pet);
                             break;
                     }
