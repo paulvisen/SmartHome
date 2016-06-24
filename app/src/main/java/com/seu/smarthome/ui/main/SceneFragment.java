@@ -1,6 +1,8 @@
 package com.seu.smarthome.ui.main;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -10,10 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.seu.smarthome.R;
+import com.seu.smarthome.ui.scene.SceneDatabaseHelper;
+import com.seu.smarthome.ui.scene.SceneDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,8 @@ public class SceneFragment extends Fragment{
 
     private RecyclerView sceneList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private List<String> list;
+    private SceneListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -45,18 +50,36 @@ public class SceneFragment extends Fragment{
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                updateData();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-        List<String> list=new ArrayList<>();
-        for(int i=0;i<3;i++){
-            String item=new String("场景"+ Integer.toString(i));
-            list.add(item);
-        }
 
-        SceneListAdapter adapter=new SceneListAdapter(list);
+        list=new ArrayList<>();
+
+        adapter=new SceneListAdapter(list);
         sceneList.setAdapter(adapter);
         return view;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateData();
+    }
+
+    void updateData(){
+        SceneDatabaseHelper dbHelper = new SceneDatabaseHelper(getActivity(), "scene.db", null, SceneDatabaseHelper.VERSION);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select name from scene", null);
+        if(cursor.moveToFirst()){
+            list.clear();
+            do{
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                list.add(name);
+            }while (cursor.moveToNext());
+        }
+        adapter.notifyDataSetChanged();
     }
 
     class SceneListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -98,7 +121,7 @@ public class SceneFragment extends Fragment{
                     @Override
                     public void onClick(View view) {
                         TextView textView = (TextView)view.findViewById(R.id.scene_name);
-                        CharSequence sceneName = textView.getText();
+                        String sceneName = textView.getText().toString();
                         Intent intent = new Intent();
                         intent.putExtra("sceneName", sceneName);
                         intent.setClass(getActivity(), SceneDetailActivity.class);

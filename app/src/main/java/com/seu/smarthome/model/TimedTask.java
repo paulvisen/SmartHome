@@ -7,11 +7,10 @@ import org.json.JSONObject;
  */
 public class TimedTask extends Task {
     public int deviceID;
-    public int startHour;
-    public int startMinute;
-    public int endHour;
-    public int endMinute;
     public int amount;
+    public int startTime;
+    public int endTime;
+    public int days;
 
     public static TimedTask fromJSON(JSONObject j){
         TimedTask timedTask = new TimedTask();
@@ -19,10 +18,9 @@ public class TimedTask extends Task {
         timedTask.deviceID = j.optInt("deviceid");
         timedTask.taskType = j.optInt("tasktype");
         timedTask.amount = j.optInt("amount");
-        timedTask.startHour = j.optInt("starthour");
-        timedTask.startMinute = j.optInt("startminute");
-        timedTask.endHour = j.optInt("endhour");
-        timedTask.endMinute = j.optInt("endminute");
+        timedTask.startTime = j.optInt("starttime");
+        timedTask.endTime = j.optInt("endtime");
+        timedTask.days = j.optInt("days");
         return  timedTask;
     }
 
@@ -32,10 +30,9 @@ public class TimedTask extends Task {
             j.put("deviceid",deviceID);
             j.put("tasktype",taskType);
             j.put("amount",amount);
-            j.put("starthour",startHour);
-            j.put("startminute",startMinute);
-            j.put("endhour",endHour);
-            j.put("endminute",endMinute);
+            j.put("starttime",startTime);
+            j.put("endtime",endTime);
+            j.put("days", days);
         }catch(Exception e){
             // ignore
         }

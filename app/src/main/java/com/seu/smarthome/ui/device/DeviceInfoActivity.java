@@ -1,4 +1,4 @@
-package com.seu.smarthome.ui.main;
+package com.seu.smarthome.ui.device;
 
 
 import android.content.Intent;

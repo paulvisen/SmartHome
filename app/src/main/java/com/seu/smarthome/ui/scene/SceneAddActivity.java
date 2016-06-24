@@ -1,9 +1,12 @@
-package com.seu.smarthome.ui.main;
+package com.seu.smarthome.ui.scene;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +31,7 @@ import com.seu.smarthome.R;
 import com.seu.smarthome.model.DelayTask;
 import com.seu.smarthome.model.ManualTask;
 import com.seu.smarthome.model.Task;
+import com.seu.smarthome.ui.common.TimeTaskActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,9 +44,17 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
 
     private RecyclerView sceneTaskList;
     private RelativeLayout startMode;
+    private EditText sceneName;
+
+    private int days;
+    private int start_time;
+    private int end_time;
+    private boolean auto;
 
     private List<Task> list;
     private SceneTaskListAdapter adapter;
+
+    private SceneDatabaseHelper dbHelper;
 
     private ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.RIGHT){
         @Override
@@ -98,6 +111,10 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
         startMode=(RelativeLayout)findViewById(R.id.start_mode);
         startMode.setOnClickListener(this);
 
+        sceneName = (EditText)findViewById(R.id.aty_scene_add_scene_name);
+
+        dbHelper = new SceneDatabaseHelper(this, "scene.db", null, SceneDatabaseHelper.VERSION);
+
     }
     @Override
     public void onClick(View view){
@@ -105,8 +122,10 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()){
             case R.id.start_mode:
                 intent.setClass(this, TimeTaskActivity.class);
-                TextView textView = (TextView) findViewById(R.id.start_mode_text);
-                intent.putExtra("auto", textView.getText().toString() == "定时启动");
+                intent.putExtra("auto", auto);
+                intent.putExtra("start_time", start_time);
+                intent.putExtra("end_time", end_time);
+                intent.putExtra("days", days);
                 startActivityForResult(intent, 1);
                 break;
             case R.id.device_add_button:
@@ -142,6 +161,53 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.menu_finish){
+            if(sceneName.getText().toString().equals("")){
+                Toast.makeText(APP.context(), "请输入场景名", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            Cursor cursor = db.rawQuery("select * from scene where name = '" + sceneName.getText() + "'", null);
+            if(cursor.getCount() != 0){
+                Toast.makeText(APP.context(), "场景已存在", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            ContentValues values = new ContentValues();
+            values.put("name", sceneName.getText().toString());
+            values.put("state", 0);
+            values.put("auto", auto?1:0);
+            values.put("days", days);
+            values.put("starttime", start_time);
+            values.put("endtime", end_time);
+            db.insert("scene", null, values);
+
+            cursor = db.rawQuery("select id from scene where name = '" + sceneName.getText() + "'", null);
+            cursor.moveToFirst();
+
+            int sceneid = cursor.getInt(cursor.getColumnIndex("id"));
+
+
+            for(Task task : list){
+                values.clear();
+                if(task.taskType == Task.TASK_TYPE_DELAY){
+                    DelayTask temp = (DelayTask)task;
+                    values.put("sceneid", sceneid);
+                    values.put("tasktype", temp.taskType);
+                    values.put("amount", temp.delayTime);
+                }
+                else {
+                    ManualTask temp = (ManualTask)task;
+                    values.put("sceneid", sceneid);
+                    values.put("deviceid", temp.deviceID);
+                    values.put("devicename", temp.deviceName);
+                    values.put("tasktype", temp.taskType);
+                    values.put("amount", temp.amount);
+                }
+                db.insert("task", null, values);
+            }
+
+        }
         finish();
         return true;
     }
@@ -153,12 +219,17 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
             case 1:
                 if(resultCode == RESULT_OK)
                 {
-                    boolean returnData = data.getBooleanExtra("data_return", false);
+                    auto = data.getBooleanExtra("auto", false);
+
                     TextView textView = (TextView) findViewById(R.id.start_mode_text);
-                    if(returnData)
+                    if(auto)
                         textView.setText("定时启动");
                     else
                         textView.setText("手动启动");
+
+                    start_time = data.getIntExtra("start_time", 0);
+                    end_time = data.getIntExtra("end_time", 0);
+                    days = data.getIntExtra("days", 0);
                 }
                 break;
             case 2:

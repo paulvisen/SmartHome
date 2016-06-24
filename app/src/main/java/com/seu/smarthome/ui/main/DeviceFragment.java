@@ -3,7 +3,6 @@ package com.seu.smarthome.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +17,7 @@ import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.model.Device;
 import com.seu.smarthome.ui.base.BaseFragment;
+import com.seu.smarthome.ui.device.DeviceControlActivity;
 import com.seu.smarthome.util.OkHttpUtils;
 import com.seu.smarthome.util.StrUtils;
 
@@ -85,7 +85,7 @@ public class DeviceFragment extends BaseFragment {
     }
 
     private void updateData(){
-        if(!APP.networkConnected){
+        if(!APP.networkConnected && isVisible()){
             Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
             return;
         }

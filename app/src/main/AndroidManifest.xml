@@ -30,17 +30,17 @@
         <activity android:name=".ui.user.AtyEditInfo" />
         <activity android:name=".ui.intro.AtyResetPasswd" />
         <activity android:name=".ui.main.ActivityMain" />
-        <activity android:name=".ui.main.DeviceAddActivity" />
-        <activity android:name=".ui.main.DeviceIdentifyActivity" />
-        <activity android:name=".ui.main.DeviceInfoActivity" />
-        <activity android:name=".ui.main.DeviceControlActivity" />
-        <activity android:name=".ui.main.SceneAddActivity" />
-        <activity android:name=".ui.main.SceneDetailActivity" />
-        <activity android:name=".ui.main.TimeTaskActivity" />
+        <activity android:name=".ui.device.DeviceAddActivity" />
+        <activity android:name=".ui.device.DeviceIdentifyActivity" />
+        <activity android:name=".ui.device.DeviceInfoActivity" />
+        <activity android:name=".ui.device.DeviceControlActivity" />
+        <activity android:name=".ui.scene.SceneAddActivity" />
+        <activity android:name=".ui.scene.SceneDetailActivity" />
+        <activity android:name=".ui.common.TimeTaskActivity" />
         <activity android:name=".ui.user.AtyUserInfo" />
-        <activity android:name=".ui.main.DeviceListActivity" />
-        <activity android:name=".ui.main.WifiListActivity" />
-        <activity android:name=".ui.main.HistoryActivity" />
+        <activity android:name=".ui.scene.DeviceListActivity" />
+        <activity android:name=".ui.WifiListActivity" />
+        <activity android:name=".ui.device.HistoryActivity" />
         <activity android:name=".ui.user.AtyAbout" />
         <activity android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
 

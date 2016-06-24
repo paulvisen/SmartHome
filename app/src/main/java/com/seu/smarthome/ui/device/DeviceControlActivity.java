@@ -1,4 +1,4 @@
-package com.seu.smarthome.ui.main;
+package com.seu.smarthome.ui.device;
 
 
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.ui.base.BaseActivity;
+import com.seu.smarthome.ui.common.TimeTaskActivity;
 import com.seu.smarthome.util.OkHttpUtils;
 import com.seu.smarthome.util.StrUtils;
 
@@ -64,7 +65,7 @@ public class DeviceControlActivity extends BaseActivity implements Button.OnClic
 
     }
 
-    private void getDeviceSrate(){
+    private void getDeviceState(){
         if(!APP.networkConnected){
             Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
             return;

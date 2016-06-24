@@ -1,4 +1,4 @@
-package com.seu.smarthome.ui.main;
+package com.seu.smarthome.ui.device;
 
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +35,7 @@ public class HistoryActivity extends AppCompatActivity {
         for(int i = 0; i < 12; i++){
             float profix = random.nextFloat() * 10;
             yVals.add(new BarEntry(profix,i));
-            xVals.add((i+1)+"月");
+            xVals.add((i+1)+":00");
         }
         BarDataSet dataSet = new BarDataSet(yVals,"value");
         dataSet.setColor(Color.rgb(89, 199, 250));

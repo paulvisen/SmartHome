@@ -1,4 +1,4 @@
-package com.seu.smarthome.ui.main;
+package com.seu.smarthome.ui.device;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.seu.smarthome.R;
+import com.seu.smarthome.ui.main.ActivityMain;
 
 /**
  * Created by Administrator on 2016-04-20.

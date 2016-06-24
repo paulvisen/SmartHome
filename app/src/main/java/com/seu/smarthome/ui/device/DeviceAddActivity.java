@@ -1,4 +1,4 @@
-package com.seu.smarthome.ui.main;
+package com.seu.smarthome.ui.device;
 
 
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.seu.smarthome.R;
+import com.seu.smarthome.ui.WifiListActivity;
 
 
 /**

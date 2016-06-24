@@ -35,6 +35,7 @@
         android:paddingLeft="20dp"/>
 
     <EditText
+        android:id="@+id/aty_scene_add_scene_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"

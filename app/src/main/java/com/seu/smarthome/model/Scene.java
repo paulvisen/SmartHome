@@ -7,11 +7,11 @@ import java.util.ArrayList;
  */
 public class Scene {
     public int sceneID;
-    public boolean manual;  //手动/自动
-    public boolean status;  //开/关
+    public String name;
+    public boolean auto;  //手动/自动
+    public boolean state;  //开/关
     public ArrayList<Task> tasklist;
-    public int startHour;
-    public int startMinute;
-    public int endHour;
-    public int endMinute;
+    public int startTime;
+    public int endTime;
+    public int days;
 }

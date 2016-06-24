@@ -1,29 +1,35 @@
-package com.seu.smarthome.ui.main;
+package com.seu.smarthome.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
+import com.seu.smarthome.util.DimensionUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -34,6 +40,8 @@ public class WifiListActivity extends AppCompatActivity {
     private WifiListAdapter adapter;
     private WifiReceiver receiver;
     private ProgressBar progressBar;
+
+    private final static String SSID = "seu-wlan";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +89,20 @@ public class WifiListActivity extends AppCompatActivity {
         return true;
     }
 
+    private int getNetworkID(String ssid){
+        int id = -1;
+        List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+        if(list != null){
+            for(int i = 0; i < list.size(); ++i){
+                if(list.get(i).SSID.equals("\"" + SSID + "\"")){
+                    id = list.get(i).networkId;
+                    break;
+                }
+            }
+        }
+        return id;
+    }
+
     class WifiReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -111,6 +133,10 @@ public class WifiListActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 if(list == null)
                     Toast.makeText(context, "找不到可用wifi", Toast.LENGTH_SHORT).show();
+
+                int id = getNetworkID(SSID);
+                if(id != -1)
+                    wifiManager.enableNetwork(id, true);
             }
             else if(intent.getAction().endsWith(wifiManager.WIFI_STATE_CHANGED_ACTION)){
                 if(wifiManager.isWifiEnabled()) {
@@ -143,7 +169,7 @@ public class WifiListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ScanResult item = list.get(position);
+            final ScanResult item = list.get(position);
             if(item != null){
                 WifiItemViewHolder itemViewHolder = (WifiItemViewHolder)holder;
                 itemViewHolder.wifiName.setText(item.SSID);
@@ -163,6 +189,36 @@ public class WifiListActivity extends AppCompatActivity {
                     case 4:
                         itemViewHolder.wifiLevelImage.setImageResource(R.mipmap.wifi4);
                         break;
+                }
+
+                if(item.capabilities.contains("WPA")){
+                    holder.itemView.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v){
+                            final EditText editText = new EditText(WifiListActivity.this);
+                            editText.setHint("密码");
+                            TextView title = new TextView(WifiListActivity.this);
+                            title.setText(item.SSID);
+                            title.setGravity(Gravity.CENTER);
+                            title.setPadding(0, DimensionUtils.dp2px(16), 0, DimensionUtils.dp2px(16));
+                            AlertDialog.Builder dialog=new AlertDialog.Builder(WifiListActivity.this);
+                            dialog.setCustomTitle(title);
+                            dialog.setView(editText);
+                            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog,int which){
+                                    if(!editText.getText().toString().isEmpty()){
+                                    }
+                                    else{
+                                        Toast.makeText(APP.context(), "请输入密码", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                            dialog.setNegativeButton("取消", null);
+                            dialog.show();
+                        }
+                    });
                 }
             }
         }

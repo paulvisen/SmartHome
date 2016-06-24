@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <TextView
             android:id="@+id/title"
@@ -93,69 +94,47 @@
         android:paddingTop="10dp"
         android:paddingBottom="5dp"
         android:paddingLeft="20dp"/>
-
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/scene_task_list_swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/scene_task_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/scene_task_list_swipe_layout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/scene_task_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="vertical"/>
-            </android.support.v4.widget.SwipeRefreshLayout>
-            <LinearLayout
-                android:id="@+id/button_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:background="@android:color/white"
-                android:visibility="gone">
-                <Button
-                    android:id="@+id/device_add_button"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:text="@string/device_add"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/white"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/bg_device_add_btn"/>
+            android:scrollbars="vertical"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <LinearLayout
+        android:id="@+id/button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@android:color/white"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/device_add_button"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="@string/device_add"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_device_add_btn"/>
 
-                <Button
-                    android:id="@+id/delay_add_button"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:text="@string/delay_add"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorGray"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="30dp"
-                    android:background="@drawable/bg_delay_add_btn"/>
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/aty_scene_detail_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/edit"
-            android:layout_margin="16dp"
-            android:layout_gravity="bottom|end"/>
-
-
-    </android.support.design.widget.CoordinatorLayout>
-
+        <Button
+            android:id="@+id/delay_add_button"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="@string/delay_add"
+            android:textSize="18sp"
+            android:textColor="@color/colorGray"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/bg_delay_add_btn"/>
+    </LinearLayout>
 
 </LinearLayout>

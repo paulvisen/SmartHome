@@ -1,21 +1,20 @@
-package com.seu.smarthome.ui.main;
+package com.seu.smarthome.ui.scene;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +22,6 @@ import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.model.Device;
 import com.seu.smarthome.model.ManualTask;
-import com.seu.smarthome.model.Task;
-import com.seu.smarthome.model.TimedTask;
 import com.seu.smarthome.ui.base.BaseActivity;
 import com.seu.smarthome.util.OkHttpUtils;
 import com.seu.smarthome.util.StrUtils;
@@ -109,6 +106,13 @@ public class DeviceListActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        finish();
+        return true;
+    }
+
     class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         private List<Device> list;
@@ -180,9 +184,9 @@ public class DeviceListActivity extends BaseActivity {
                     case Device.DEVICE_TYPE_WATER:
                         itemViewHolder.deviceTypeImage.setImageResource(R.mipmap.water);
                         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            EditText editText = new EditText(context);
                             @Override
                             public void onClick(View v) {
+                                final EditText editText = new EditText(context);
                                 AlertDialog.Builder dialog=new AlertDialog.Builder(context);
                                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
                                 dialog.setTitle("浇水量");
@@ -198,11 +202,11 @@ public class DeviceListActivity extends BaseActivity {
                                             selectedTask.amount = Integer.parseInt(editText.getText().toString());
                                             intent.putExtra("task", selectedTask);
                                             setResult(RESULT_OK, intent);
+                                            finish();
                                         }
                                         else{
-                                            setResult(RESULT_CANCELED);
+                                            Toast.makeText(APP.context(), "请输入浇水量", Toast.LENGTH_SHORT).show();
                                         }
-                                        finish();
                                     }
                                 });
                                 dialog.setNegativeButton("取消", null);
@@ -213,9 +217,9 @@ public class DeviceListActivity extends BaseActivity {
                     case Device.DEVICE_TYPE_FEED:
                         itemViewHolder.deviceTypeImage.setImageResource(R.mipmap.pet);
                         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            EditText editText = new EditText(context);
                             @Override
                             public void onClick(View v) {
+                                final EditText editText = new EditText(context);
                                 AlertDialog.Builder dialog=new AlertDialog.Builder(context);
                                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
                                 dialog.setTitle("喂食量");
@@ -231,11 +235,12 @@ public class DeviceListActivity extends BaseActivity {
                                             selectedTask.amount = Integer.parseInt(editText.getText().toString());
                                             intent.putExtra("task", selectedTask);
                                             setResult(RESULT_OK, intent);
+                                            finish();
                                         }
                                         else{
-                                            setResult(RESULT_CANCELED);
+                                            Toast.makeText(APP.context(), "请输入喂食量", Toast.LENGTH_SHORT).show();
                                         }
-                                        finish();
+
                                     }
                                 });
                                 dialog.setNegativeButton("取消", null);

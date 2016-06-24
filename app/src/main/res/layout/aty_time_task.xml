@@ -65,7 +65,7 @@
                 android:id="@+id/start_time_set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00"
+                android:text="0:0"
                 android:textSize="18sp"
                 android:layout_alignParentRight="true"/>
 
@@ -91,7 +91,7 @@
                 android:id="@+id/end_time_set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00"
+                android:text="0:0"
                 android:textSize="18sp"
                 android:layout_alignParentRight="true" />
 
@@ -118,59 +118,73 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
                 <ToggleButton
+                    android:id="@+id/toggle_button_monday"
                     android:layout_width="@dimen/round_button_radius"
                     android:layout_height="@dimen/round_button_radius"
                     android:background="@drawable/week_selector"
                     android:textOn="一"
                     android:textOff="一"
+                    android:tag="1"
                     android:layout_margin="5dp"
                     android:checked="false" />
                 <ToggleButton
+                    android:id="@+id/toggle_button_tuesday"
                     android:layout_width="@dimen/round_button_radius"
                     android:layout_height="@dimen/round_button_radius"
                     android:background="@drawable/week_selector"
                     android:textOn="二"
                     android:textOff="二"
+                    android:tag="2"
                     android:layout_margin="5dp"
                     android:checked="false" />
                 <ToggleButton
+                    android:id="@+id/toggle_button_wednesday"
                     android:layout_width="@dimen/round_button_radius"
                     android:layout_height="@dimen/round_button_radius"
                     android:background="@drawable/week_selector"
                     android:textOn="三"
                     android:textOff="三"
+                    android:tag="3"
                     android:layout_margin="5dp"
                     android:checked="false" />
                 <ToggleButton
+                    android:id="@+id/toggle_button_thursday"
                     android:layout_width="@dimen/round_button_radius"
                     android:layout_height="@dimen/round_button_radius"
                     android:background="@drawable/week_selector"
                     android:textOn="四"
                     android:textOff="四"
+                    android:tag="4"
                     android:layout_margin="5dp"
                     android:checked="false" />
                 <ToggleButton
+                    android:id="@+id/toggle_button_friday"
                     android:layout_width="@dimen/round_button_radius"
                     android:layout_height="@dimen/round_button_radius"
                     android:background="@drawable/week_selector"
                     android:textOn="五"
                     android:textOff="五"
+                    android:tag="5"
                     android:layout_margin="5dp"
                     android:checked="false" />
                 <ToggleButton
+                    android:id="@+id/toggle_button_saturday"
                     android:layout_width="@dimen/round_button_radius"
                     android:layout_height="@dimen/round_button_radius"
                     android:background="@drawable/week_selector"
                     android:textOn="六"
                     android:textOff="六"
+                    android:tag="6"
                     android:layout_margin="5dp"
                     android:checked="false" />
                 <ToggleButton
+                    android:id="@+id/toggle_button_sunday"
                     android:layout_width="@dimen/round_button_radius"
                     android:layout_height="@dimen/round_button_radius"
                     android:background="@drawable/week_selector"
                     android:textOn="日"
                     android:textOff="日"
+                    android:tag="7"
                     android:layout_margin="5dp"
                     android:checked="false" />
             </LinearLayout>

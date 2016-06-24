@@ -33,6 +33,13 @@
             android:textOn=""
             android:textOff=""
             android:background="@drawable/switch_selector" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aty_device_control_button"
+            android:layout_centerHorizontal="true"
+            android:padding="16dp"
+            android:text="定时：关"/>
     </RelativeLayout>
 
     <TableLayout
