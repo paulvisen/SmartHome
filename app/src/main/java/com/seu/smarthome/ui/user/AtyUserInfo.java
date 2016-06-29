@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +60,7 @@ public class AtyUserInfo extends BaseActivity implements View.OnClickListener{
         OkHttpUtils.post(StrUtils.GET_PROFILE_URL, map, TAG, new OkHttpUtils.SimpleOkCallBack() {
             @Override
             public void onResponse(String s) {
-                JSONObject j = OkHttpUtils.parseJSON(APP.context(), s);
+                JSONObject j = OkHttpUtils.parseJSON(s);
                 if (j == null)
                     return;
                 user = User.fromJSON(j);
@@ -68,6 +68,13 @@ public class AtyUserInfo extends BaseActivity implements View.OnClickListener{
                 ((TextView) findViewById(R.id.aty_info_phone)).setText(user.phone);
                 ((TextView) findViewById(R.id.aty_info_qq)).setText(user.qq);
                 ((TextView) findViewById(R.id.aty_info_we_chat)).setText(user.wechat);
+                boolean male = getResources().getString(R.string.male).equals(user.gender);
+                ImageView ivGender = (ImageView)findViewById(R.id.aty_info_gender);
+                if(male)
+                    ivGender.setImageResource(R.mipmap.boy);
+                else
+                    ivGender.setImageResource(R.mipmap.girl);
+
             }
         });
     }

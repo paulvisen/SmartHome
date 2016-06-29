@@ -29,20 +29,20 @@ import com.seu.smarthome.util.StrUtils;
 public class AtyRegister extends BaseActivity {
     private static final String TAG = "AtyRegister";
 
-    EditText etName;
-    EditText etPass;
-    EditText etPass2;
-    TextView tvContract;
-    TextView tvRegister;
-    TextView tvError;
+    private EditText etName;
+    private EditText etPass;
+    private EditText etPass2;
+    private TextView tvContract;
+    private TextView tvRegister;
+    private TextView tvError;
 
-    TextWatcher mTextWatcher;
-    View.OnClickListener mListener;
+    private TextWatcher mTextWatcher;
+    private View.OnClickListener mListener;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_register);
         Toolbar toolbar = (Toolbar) findViewById(R.id.aty_register_toolbar);
-        toolbar.setTitle(R.string.register_weme_user);
+        toolbar.setTitle(R.string.register_smarthome_user);
         toolbar.setTitleTextColor(Color.WHITE);
 
         etName = (EditText) findViewById(R.id.aty_register_name);
@@ -120,7 +120,7 @@ public class AtyRegister extends BaseActivity {
             @Override
             public void onResponse(String s) {
                 LogUtils.i(TAG,s);
-                JSONObject j = OkHttpUtils.parseJSON(AtyRegister.this, s);
+                JSONObject j = OkHttpUtils.parseJSON(s);
                 if(j == null){
                     return;
                 }

@@ -26,11 +26,11 @@ public class TabItem extends LinearLayout {
     private TextView mTextView;
 
 
-    Drawable mDrawableEnabled;
-    Drawable mDrawableCommon;
-    String mText;
-    int mColorEnabled;
-    int mColorCommon;
+    private Drawable mDrawableEnabled;
+    private Drawable mDrawableCommon;
+    private String mText;
+    private int mColorEnabled;
+    private int mColorCommon;
 
     private boolean mEnable = false;
     public TabItem(Context context) {

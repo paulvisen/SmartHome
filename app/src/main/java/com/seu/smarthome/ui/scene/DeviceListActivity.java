@@ -9,17 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
+import com.seu.smarthome.adapter.DeviceListAdapter;
 import com.seu.smarthome.model.Device;
 import com.seu.smarthome.model.ManualTask;
 import com.seu.smarthome.ui.base.BaseActivity;
@@ -37,8 +34,8 @@ import java.util.Map;
 public class DeviceListActivity extends BaseActivity {
 
     private ManualTask selectedTask;
-
     private DeviceListAdapter adapter;
+    private List<Device> list;
 
     private final static String TAG = "DeviceListActivity";
 
@@ -52,26 +49,13 @@ public class DeviceListActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        List<Device> list = new ArrayList<>();
-        /*for(int i=0;i<3;i++)
-        {
-            Device item=new Device();
-            item.deviceType = Device.DEVICE_TYPE_LIGHT;
-            item.deviceName = "智能照明";
-            list.add(item);
-            item = new Device();
-            item.deviceType = Device.DEVICE_TYPE_WATER;
-            item.deviceName = "智能浇花";
-            list.add(item);
-            item = new Device();
-            item.deviceType = Device.DEVICE_TYPE_FEED;
-            item.deviceName = "智能喂食";
-            list.add(item);
-        }*/
+        list = new ArrayList<>();
         RecyclerView deviceList = (RecyclerView)findViewById(R.id.device_list);
         deviceList.setLayoutManager(new LinearLayoutManager(this));
         deviceList.setHasFixedSize(true);
         adapter = new DeviceListAdapter(this, list);
+        DeviceItemClickListener listener = new DeviceItemClickListener(this);
+        adapter.setListener(listener);
         deviceList.setAdapter(adapter);
 
         selectedTask = new ManualTask();
@@ -79,28 +63,23 @@ public class DeviceListActivity extends BaseActivity {
     }
 
     private void updateData(){
-        if(!APP.networkConnected){
-            Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
-            return;
-        }
         Map<String,String> map = new HashMap<>();
         map.put("token", StrUtils.token());
         OkHttpUtils.post(StrUtils.GET_DEVICE_LIST_URL, map, TAG, new OkHttpUtils.SimpleOkCallBack() {
             @Override
             public void onResponse(String s) {
-                JSONObject j = OkHttpUtils.parseJSON(DeviceListActivity.this, s);
+                JSONObject j = OkHttpUtils.parseJSON(s);
                 if (j == null) {
                     return;
                 }
                 JSONArray array = j.optJSONArray("devicelist");
                 if (array == null)
                     return;
-                List<Device> list = new ArrayList<>();
+                list.clear();
                 for (int i = 0; i < array.length(); ++i) {
                     Device device = Device.fromJSON(array.optJSONObject(i));
                     list.add(device);
                 }
-                adapter.setList(list);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -113,165 +92,107 @@ public class DeviceListActivity extends BaseActivity {
         return true;
     }
 
-    class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-
-        private List<Device> list;
+    class DeviceItemClickListener implements View.OnClickListener{
         private Context context;
-
-        public DeviceListAdapter(Context context, List<Device> itemList) {
-            this.list = itemList;
+        DeviceItemClickListener(Context context){
             this.context = context;
         }
 
-        public void setList(List<Device> itemList){
-            this.list = itemList;
-        }
-
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            RecyclerView.ViewHolder viewHolder;
-            View view = LayoutInflater.from(DeviceListActivity.this).inflate(R.layout.device_list_item, parent, false);
-            viewHolder = new ItemViewHolder(view);
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            final Device item = list.get(position);
-            if(item != null){
-                ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-                switch (item.deviceType)
-                {
-                    case Device.DEVICE_TYPE_LIGHT:
-                        itemViewHolder.deviceTypeImage.setImageResource(R.mipmap.light);
-                        itemViewHolder.itemView.setOnClickListener(new View.OnClickListener(){
-                            @Override
-                            public void onClick(View v) {
-                                selectedTask.amount = 1;
-                                AlertDialog.Builder dialog=new AlertDialog.Builder(context);
-                                dialog.setSingleChoiceItems(new String[]{"开启", "关闭"}, 0, new DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public void onClick(DialogInterface dialog,int which){
-                                        switch(which){
-                                            case 0:
-                                                selectedTask.amount = 1;
-                                                break;
-                                            case 1:
-                                                selectedTask.amount = 0;
-                                                break;
-                                        }
-                                    }
-                                });
-                                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
-                                    @Override
-                                    public void onClick(DialogInterface dialog,int which){
-                                        Intent intent = new Intent();
-                                        selectedTask.deviceID = item.id;
-                                        selectedTask.taskType = item.deviceType;
-                                        selectedTask.deviceName = item.deviceName;
-
-                                        intent.putExtra("task", selectedTask);
-                                        setResult(RESULT_OK, intent);
-                                        finish();
-                                    }
-                                });
-                                dialog.setNegativeButton("取消", null);
-                                dialog.show();
+        public void onClick(View v){
+            int i = (int)v.getTag();
+            final Device item = list.get(i);
+            AlertDialog.Builder dialog=new AlertDialog.Builder(context);
+            switch (item.deviceType) {
+                case Device.DEVICE_TYPE_LIGHT:
+                    selectedTask.amount = 1;
+                    dialog.setSingleChoiceItems(new String[]{"开启", "关闭"}, 0, new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog,int which){
+                            switch(which){
+                                case 0:
+                                    selectedTask.amount = 1;
+                                    break;
+                                case 1:
+                                    selectedTask.amount = 0;
+                                    break;
                             }
-                        });
-                        break;
-                    case Device.DEVICE_TYPE_WATER:
-                        itemViewHolder.deviceTypeImage.setImageResource(R.mipmap.water);
-                        itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                final EditText editText = new EditText(context);
-                                AlertDialog.Builder dialog=new AlertDialog.Builder(context);
-                                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                                dialog.setTitle("浇水量");
-                                dialog.setView(editText);
-                                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
-                                    @Override
-                                    public void onClick(DialogInterface dialog,int which){
-                                        if(!editText.getText().toString().isEmpty()){
-                                            Intent intent = new Intent();
-                                            selectedTask.deviceID = item.id;
-                                            selectedTask.taskType = item.deviceType;
-                                            selectedTask.deviceName = item.deviceName;
-                                            selectedTask.amount = Integer.parseInt(editText.getText().toString());
-                                            intent.putExtra("task", selectedTask);
-                                            setResult(RESULT_OK, intent);
-                                            finish();
-                                        }
-                                        else{
-                                            Toast.makeText(APP.context(), "请输入浇水量", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                                dialog.setNegativeButton("取消", null);
-                                dialog.show();
-                            }
-                        });
-                        break;
-                    case Device.DEVICE_TYPE_FEED:
-                        itemViewHolder.deviceTypeImage.setImageResource(R.mipmap.pet);
-                        itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                final EditText editText = new EditText(context);
-                                AlertDialog.Builder dialog=new AlertDialog.Builder(context);
-                                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                                dialog.setTitle("喂食量");
-                                dialog.setView(editText);
-                                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
-                                    @Override
-                                    public void onClick(DialogInterface dialog,int which){
-                                        if(!editText.getText().toString().isEmpty()){
-                                            Intent intent = new Intent();
-                                            selectedTask.deviceID = item.id;
-                                            selectedTask.taskType = item.deviceType;
-                                            selectedTask.deviceName = item.deviceName;
-                                            selectedTask.amount = Integer.parseInt(editText.getText().toString());
-                                            intent.putExtra("task", selectedTask);
-                                            setResult(RESULT_OK, intent);
-                                            finish();
-                                        }
-                                        else{
-                                            Toast.makeText(APP.context(), "请输入喂食量", Toast.LENGTH_SHORT).show();
-                                        }
+                        }
+                    });
+                    dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog,int which){
+                            Intent intent = new Intent();
+                            selectedTask.deviceID = item.id;
+                            selectedTask.taskType = item.deviceType;
+                            selectedTask.deviceName = item.deviceName;
 
-                                    }
-                                });
-                                dialog.setNegativeButton("取消", null);
-                                dialog.show();
+                            intent.putExtra("task", selectedTask);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    });
+                    dialog.setNegativeButton("取消", null);
+                    dialog.show();
+                    break;
+                case Device.DEVICE_TYPE_WATER:
+                    final EditText feedEditText = new EditText(context);
+                    feedEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    dialog.setTitle("浇水量");
+                    dialog.setView(feedEditText);
+                    dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog,int which){
+                            if(!feedEditText.getText().toString().isEmpty()){
+                                Intent intent = new Intent();
+                                selectedTask.deviceID = item.id;
+                                selectedTask.taskType = item.deviceType;
+                                selectedTask.deviceName = item.deviceName;
+                                selectedTask.amount = Integer.parseInt(feedEditText.getText().toString());
+                                intent.putExtra("task", selectedTask);
+                                setResult(RESULT_OK, intent);
+                                finish();
                             }
-                        });
-                        break;
-                }
-                itemViewHolder.deviceName.setText(item.deviceName);
+                            else{
+                                Toast.makeText(APP.context(), "请输入浇水量", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    dialog.setNegativeButton("取消", null);
+                    dialog.show();
+                    break;
+                case Device.DEVICE_TYPE_FEED:
+                    final EditText waterEditText = new EditText(context);
+                    waterEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    dialog.setTitle("喂食量");
+                    dialog.setView(waterEditText);
+                    dialog.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog,int which){
+                            if(!waterEditText.getText().toString().isEmpty()){
+                                Intent intent = new Intent();
+                                selectedTask.deviceID = item.id;
+                                selectedTask.taskType = item.deviceType;
+                                selectedTask.deviceName = item.deviceName;
+                                selectedTask.amount = Integer.parseInt(waterEditText.getText().toString());
+                                intent.putExtra("task", selectedTask);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                            else{
+                                Toast.makeText(APP.context(), "请输入喂食量", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                    dialog.setNegativeButton("取消", null);
+                    dialog.show();
+                    break;
             }
         }
-
-        @Override
-        public int getItemCount() {
-            return list==null?0:list.size();
-        }
-
-        class ItemViewHolder extends RecyclerView.ViewHolder {
-            ImageView deviceTypeImage;
-            TextView deviceName;
-
-            public ItemViewHolder(View view){
-                super(view);
-
-                deviceTypeImage =(ImageView)view.findViewById(R.id.device_type_image);
-                deviceName = (TextView)view.findViewById(R.id.device_name);
-            }
-        }
-
-
     }
+
     @Override
     protected String tag(){
         return TAG;

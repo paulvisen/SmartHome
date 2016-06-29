@@ -5,16 +5,10 @@ import android.content.SharedPreferences;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.MediaType;
 import com.seu.smarthome.APP;
-import com.seu.smarthome.R;
 
 /**
  * Created by Liujilong on 16/1/22.
@@ -43,25 +37,37 @@ public final class StrUtils {
 
     public static final String GET_DEVICE_LIST_URL = BASE_URL + "getdevicelist";
 
-    public static final String GET_DEVICE_STATE_URL = BASE_URL + "getdevicestate";
+    public static final String GET_DEVICE_STATE_URL = BASE_URL + "getdevicedetails";
 
     public static final String GET_DEVICE_HISTORY_URL = BASE_URL + "getdevicedata";
 
     public static final String GET_DEVICE_DATAILS_URL = BASE_URL + "getdevevicedetails";
 
+    public static final String ADD_DEVICE_URL = BASE_URL + "adddevicelist";
+
     public static final String GET_SCENE_TASK_URL = BASE_URL + "getscenetask";
 
-    public static final String ADD_SCENE_TASK_URL = BASE_URL + "addscenetask";
-
-    public static final String EDIT_SCENE_TASK_URL = BASE_URL + "editscenetask";
+    public static final String SUBMIT_SCENE_URL = BASE_URL + "submitscene";
 
     public static final String DELETE_SCENE_TASK_URL = BASE_URL + "delescenetask";
+
+    public static final String START_SCENE_URL = BASE_URL + "startscene";
+
+    public static final String CLOSE_SCENE_URL = BASE_URL + "closescenetask";
 
     public static final String GET_AVATAR = BASE_URL_NGINX + "avatar/";
 
     public static final String UPLOAD_AVATAR_URL = BASE_URL_NGINX + "uploadavatar";
 
     public static final String GET_BACKGROUND = BASE_URL_NGINX + "background/";
+
+    public static final String SET_DEVICE_TIMING_TASK_URL = BASE_URL + "setdevicetimingtask";
+
+    public static final String SET_DEVICE_REALTIME_TASK_URL = BASE_URL + "setdevicerealtimetask";
+
+    public static final String CANCEL_DEVICE_TIMING_TASK_URL = BASE_URL + "canceldevicetimingtask";
+
+    public static final String CANCEL_DEVICE_REALTIME_TASK_URL = BASE_URL + "canceldevicerealtimetask";
 
     public static String thumForID(String id){
         return GET_AVATAR + id + "_thumbnail.jpg";
@@ -139,5 +145,24 @@ public final class StrUtils {
                 return result;
             }
         }
+    }
+
+    public static String timeInt2Str(int time){
+        String hour = String.format("%02d", time / 60);
+        String minute = String.format("%02d", time % 60);
+        return hour + ":" + minute;
+    }
+
+    public static String daysInt2Str(int days){
+        return String.format("%7s", Integer.toBinaryString(days)).replace(' ', '0');
+    }
+
+    public static int timeStr2Int(String time){
+        String str[] = time.split(":");
+        return Integer.parseInt(str[0]) * 60 + Integer.parseInt(str[1]);
+    }
+
+    public static int daysStr2Int(String days){
+        return Integer.valueOf(days, 2);
     }
 }

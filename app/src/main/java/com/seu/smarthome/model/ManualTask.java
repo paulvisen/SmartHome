@@ -1,7 +1,12 @@
 package com.seu.smarthome.model;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.seu.smarthome.APP;
+import com.seu.smarthome.database.SceneDatabaseHelper;
 
 import org.json.JSONObject;
 
@@ -13,9 +18,8 @@ public class ManualTask extends Task implements Parcelable{
     public String deviceName;
     public int amount;
 
-    public static ManualTask fromJSON(JSONObject j){
+    public static Task fromJSON(JSONObject j){
         ManualTask manualTask = new ManualTask();
-        manualTask.taskID = j.optInt("id");
         manualTask.deviceID = j.optInt("deviceid");
         manualTask.deviceName = j.optString("devicename", "");
         manualTask.taskType = j.optInt("tasktype");
@@ -30,9 +34,24 @@ public class ManualTask extends Task implements Parcelable{
             j.put("tasktype",taskType);
             j.put("amount",amount);
         }catch(Exception e){
-            // ignore
+            e.printStackTrace();
         }
         return j.toString();
+    }
+
+    public static void addToDB(Task task, int sceneid){
+        SceneDatabaseHelper dbHelper = new SceneDatabaseHelper(APP.context(), "scene.db", null, SceneDatabaseHelper.VERSION);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ManualTask temp = (ManualTask)task;
+        ContentValues values = new ContentValues();
+        values.put("sceneid", sceneid);
+        values.put("deviceid", temp.deviceID);
+        values.put("devicename", temp.deviceName);
+        values.put("tasktype", temp.taskType);
+        values.put("amount", temp.amount);
+        db.insert("task", null, values);
+        db.close();
     }
 
     @Override

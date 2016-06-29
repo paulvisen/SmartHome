@@ -16,9 +16,9 @@ import com.seu.smarthome.util.DimensionUtils;
  * liujilong.me@gmail.com
  */
 public class LoadingView extends LinearLayout {
-    ProgressBar mProgressBar;
-    TextView mTextView;
-    Context mContext;
+    private ProgressBar mProgressBar;
+    private TextView mTextView;
+    private Context mContext;
 
     public static WindowManager.LayoutParams mWindowParams;
 

@@ -2,36 +2,34 @@ package com.seu.smarthome.ui.scene;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
+import com.seu.smarthome.adapter.SceneTaskListAdapter;
 import com.seu.smarthome.model.DelayTask;
 import com.seu.smarthome.model.ManualTask;
+import com.seu.smarthome.model.Scene;
 import com.seu.smarthome.model.Task;
+import com.seu.smarthome.ui.base.BaseActivity;
 import com.seu.smarthome.ui.common.TimeTaskActivity;
+import com.seu.smarthome.util.OkHttpUtils;
+import com.seu.smarthome.util.StrUtils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,23 +38,19 @@ import java.util.List;
 /**
  * Created by Administrator on 2016-04-21.
  */
-public class SceneAddActivity extends AppCompatActivity implements View.OnClickListener {
+public class SceneAddActivity extends BaseActivity implements View.OnClickListener {
+
+    private final static String TAG = "SceneAddActivity";
 
     private RecyclerView sceneTaskList;
-    private RelativeLayout startMode;
     private EditText sceneName;
 
-    private int days;
-    private int start_time;
-    private int end_time;
-    private boolean auto;
+    private Scene scene;
 
     private List<Task> list;
     private SceneTaskListAdapter adapter;
 
-    private SceneDatabaseHelper dbHelper;
-
-    private ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.RIGHT){
+    private final ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,ItemTouchHelper.RIGHT){
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             int fromPosition = viewHolder.getAdapterPosition();
@@ -100,20 +94,20 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
         sceneTaskList = (RecyclerView) findViewById(R.id.scene_task_list);
         sceneTaskList.setLayoutManager(new LinearLayoutManager(this));
         sceneTaskList.setHasFixedSize(true);
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(sceneTaskList);
 
+        scene = new Scene();
         list = new ArrayList<>();
+        scene.tasklist = list;
 
-        adapter=new SceneTaskListAdapter(this,list);
+        adapter = new SceneTaskListAdapter(this,list);
         sceneTaskList.setAdapter(adapter);
 
-        startMode=(RelativeLayout)findViewById(R.id.start_mode);
-        startMode.setOnClickListener(this);
+        findViewById(R.id.start_mode).setOnClickListener(this);
 
         sceneName = (EditText)findViewById(R.id.aty_scene_add_scene_name);
-
-        dbHelper = new SceneDatabaseHelper(this, "scene.db", null, SceneDatabaseHelper.VERSION);
 
     }
     @Override
@@ -122,10 +116,9 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()){
             case R.id.start_mode:
                 intent.setClass(this, TimeTaskActivity.class);
-                intent.putExtra("auto", auto);
-                intent.putExtra("start_time", start_time);
-                intent.putExtra("end_time", end_time);
-                intent.putExtra("days", days);
+                intent.putExtra("auto", scene.auto);
+                intent.putExtra("start_time", scene.startTime);
+                intent.putExtra("days", scene.days);
                 startActivityForResult(intent, 1);
                 break;
             case R.id.device_add_button:
@@ -166,47 +159,19 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(APP.context(), "请输入场景名", Toast.LENGTH_SHORT).show();
                 return true;
             }
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery("select * from scene where name = '" + sceneName.getText() + "'", null);
-            if(cursor.getCount() != 0){
-                Toast.makeText(APP.context(), "场景已存在", Toast.LENGTH_SHORT).show();
+
+
+            if(!APP.networkConnected){
+                Toast.makeText(APP.context(), R.string.network_unconnected, Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            ContentValues values = new ContentValues();
-            values.put("name", sceneName.getText().toString());
-            values.put("state", 0);
-            values.put("auto", auto?1:0);
-            values.put("days", days);
-            values.put("starttime", start_time);
-            values.put("endtime", end_time);
-            db.insert("scene", null, values);
-
-            cursor = db.rawQuery("select id from scene where name = '" + sceneName.getText() + "'", null);
-            cursor.moveToFirst();
-
-            int sceneid = cursor.getInt(cursor.getColumnIndex("id"));
-
-
-            for(Task task : list){
-                values.clear();
-                if(task.taskType == Task.TASK_TYPE_DELAY){
-                    DelayTask temp = (DelayTask)task;
-                    values.put("sceneid", sceneid);
-                    values.put("tasktype", temp.taskType);
-                    values.put("amount", temp.delayTime);
-                }
-                else {
-                    ManualTask temp = (ManualTask)task;
-                    values.put("sceneid", sceneid);
-                    values.put("deviceid", temp.deviceID);
-                    values.put("devicename", temp.deviceName);
-                    values.put("tasktype", temp.taskType);
-                    values.put("amount", temp.amount);
-                }
-                db.insert("task", null, values);
+            scene.name = sceneName.getText().toString();
+            if(!Scene.existInDB(scene.name)){
+                return true;
             }
 
+            addScene();
         }
         finish();
         return true;
@@ -219,17 +184,16 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
             case 1:
                 if(resultCode == RESULT_OK)
                 {
-                    auto = data.getBooleanExtra("auto", false);
+                    scene.auto = data.getBooleanExtra("auto", false);
 
                     TextView textView = (TextView) findViewById(R.id.start_mode_text);
-                    if(auto)
+                    if(scene.auto)
                         textView.setText("定时启动");
                     else
                         textView.setText("手动启动");
 
-                    start_time = data.getIntExtra("start_time", 0);
-                    end_time = data.getIntExtra("end_time", 0);
-                    days = data.getIntExtra("days", 0);
+                    scene.startTime = data.getIntExtra("start_time", 0);
+                    scene.days = data.getIntExtra("days", 0);
                 }
                 break;
             case 2:
@@ -243,72 +207,22 @@ public class SceneAddActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    class  SceneTaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-        private List<Task> list;
-        private LayoutInflater layoutInflater;
-
-        public SceneTaskListAdapter(Context context,List<Task> taskList){
-            this.list=taskList;
-            this.layoutInflater=LayoutInflater.from(context);
-        }
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,int viewType){
-            RecyclerView.ViewHolder viewHolder;
-            View view=layoutInflater.inflate(R.layout.scene_task_list_item,parent,false);
-            viewHolder=new ItemViewHolder(view);
-            return viewHolder;
-
-        }
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder,int position){
-            Task task=list.get(position);
-            if(task!=null){
-                ItemViewHolder itemViewHolder=(ItemViewHolder) holder;
-                if(task.taskType == Task.TASK_TYPE_DELAY)
-                {
-                    DelayTask temp = (DelayTask)task;
-                    String text = "延时";
-                    text += temp.delayTime/60 > 0 ? temp.delayTime/60 + "时" : "";
-                    text += temp.delayTime%60 > 0 ? temp.delayTime%60 + "分" : "";
-                    itemViewHolder.textView.setText(text);
-                    itemViewHolder.imageView.setImageResource(R.mipmap.clock2);
-                }
-                else
-                {
-                    ManualTask temp = (ManualTask)task;
-                    switch (temp.taskType)
-                    {
-                        case Task.TASK_TYPE_LIGHT:
-                            itemViewHolder.textView.setText(temp.deviceName + (temp.amount > 0 ? " 开启" : " 关闭"));
-                            itemViewHolder.imageView.setImageResource(R.mipmap.light);
-                            break;
-                        case Task.TASK_TYPE_WATER:
-                            itemViewHolder.textView.setText(temp.deviceName +" 浇水量： " + Integer.toString(temp.amount));
-                            itemViewHolder.imageView.setImageResource(R.mipmap.water);
-                            break;
-                        case Task.TASK_TYPE_FEED:
-                            itemViewHolder.textView.setText(temp.deviceName +" 喂食量： " + Integer.toString(temp.amount));
-                            itemViewHolder.imageView.setImageResource(R.mipmap.pet);
-                            break;
-                    }
-                }
+    private void addScene(){
+        JSONObject object = Scene.toJSON(scene);
+        OkHttpUtils.post(StrUtils.SUBMIT_SCENE_URL, object, TAG, new OkHttpUtils.SimpleOkCallBack(){
+            @Override
+            public void onResponse(String s) {
+                JSONObject j = OkHttpUtils.parseJSON(s);
+                if (j == null)
+                    return;
+                Scene.addToDB(scene);
             }
-        }
-        @Override
-        public int getItemCount() {
-            return list==null?0:list.size();
-        }
-        class ItemViewHolder extends RecyclerView.ViewHolder{
-            TextView textView;
-            ImageView imageView;
+        });
+    }
 
-            public ItemViewHolder(View view){
-                super(view);
-                textView=(TextView)view.findViewById(R.id.scene_task);
-                imageView = (ImageView)view.findViewById(R.id.scene_image);
-            }
-
-        }
+    @Override
+    protected String tag(){
+        return TAG;
     }
 
 

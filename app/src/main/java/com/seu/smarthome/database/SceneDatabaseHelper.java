@@ -1,4 +1,4 @@
-package com.seu.smarthome.ui.scene;
+package com.seu.smarthome.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,10 +14,9 @@ public class SceneDatabaseHelper extends SQLiteOpenHelper {
             + "state integer, "
             + "auto integer, "
             + "days integer, "
-            + "starttime integer, "
-            + "endtime integer)";
+            + "starttime integer)";
 
-    public static final int VERSION = 4;
+    public static final int VERSION = 5;
 
     private final static String CREATE_TASK = "create table task ("
             + "id integer primary key autoincrement, "

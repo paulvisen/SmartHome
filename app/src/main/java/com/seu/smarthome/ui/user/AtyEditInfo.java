@@ -53,15 +53,15 @@ public class AtyEditInfo extends BaseActivity {
     private String mAvatarPath;
     private Bitmap avatarBitmap;
 
-    SimpleDraweeView mDrawAvatar;
-    EditText etName;
-    WSwitch swGender;
-    EditText etPhone;
-    EditText etWeChat;
-    EditText etQQ;
-    TextView etCommit;
+    private SimpleDraweeView mDrawAvatar;
+    private EditText etName;
+    private WSwitch swGender;
+    private EditText etPhone;
+    private EditText etWeChat;
+    private EditText etQQ;
+    private TextView etCommit;
 
-    ProgressDialog mProgressDialog;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,11 +142,13 @@ public class AtyEditInfo extends BaseActivity {
             @Override
             public void onResponse(String s) {
                 LogUtils.i(TAG, s);
-                JSONObject j = OkHttpUtils.parseJSON(AtyEditInfo.this, s);
+                JSONObject j = OkHttpUtils.parseJSON(s);
                 if (j == null) {
+                    mProgressDialog.cancel();
                     return;
                 }
                 if (mAvatarPath == null) {
+                    mProgressDialog.cancel();
                     finish();
                 } else {
                     uploadAvatar();
@@ -168,6 +170,7 @@ public class AtyEditInfo extends BaseActivity {
 
             @Override
             public void onResponse(String s) {
+                mProgressDialog.cancel();
                 finish();
                 ImagePipeline imagePipeline = Fresco.getImagePipeline();
                 imagePipeline.evictFromCache(Uri.parse(StrUtils.thumForID(mUser.ID + "")));

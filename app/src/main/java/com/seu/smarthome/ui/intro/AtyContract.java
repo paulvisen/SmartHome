@@ -17,8 +17,7 @@ import com.seu.smarthome.R;
  * liujilong.me@gmail.com
  */
 public class AtyContract extends Activity {
-    TextView tvContract;
-    TextView tvReturn;
+    private TextView tvContract;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +27,7 @@ public class AtyContract extends Activity {
         toolbar.setTitle(R.string.user_contract);
         toolbar.setTitleTextColor(Color.WHITE);
         tvContract = (TextView) findViewById(R.id.aty_contract_text);
-        tvReturn = (TextView) findViewById(R.id.aty_contract_return);
+        TextView tvReturn = (TextView) findViewById(R.id.aty_contract_return);
         tvReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

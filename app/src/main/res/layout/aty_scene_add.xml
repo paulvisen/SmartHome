@@ -100,7 +100,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        style="?android:attr/buttonBarStyle">
         <Button
             android:id="@+id/device_add_button"
             android:layout_width="0dp"
@@ -111,7 +112,8 @@
             android:textColor="@android:color/white"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/bg_device_add_btn"/>
+            android:background="@drawable/bg_device_add_btn"
+            style="?android:attr/buttonBarButtonStyle"/>
 
         <Button
             android:id="@+id/delay_add_button"
@@ -123,6 +125,7 @@
             android:textColor="@color/colorGray"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="30dp"
-            android:background="@drawable/bg_delay_add_btn"/>
+            android:background="@drawable/bg_delay_add_btn"
+            style="?android:attr/buttonBarButtonStyle"/>
     </LinearLayout>
 </LinearLayout>

@@ -27,7 +27,7 @@ public class ActivityMain extends AppCompatActivity {
     private TabItem[] tabItems;
     private ViewPager viewPager;
     private TextView title;
-    private int[] titles = new int[]{
+    private final int[] titles = new int[]{
             R.string.equipment,
             R.string.scene,
             R.string.me

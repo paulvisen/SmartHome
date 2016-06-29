@@ -39,7 +39,7 @@ public class User implements Parcelable{
             j.put("wechat",wechat);
             j.put("avatar",avatar);
         }catch(Exception e){
-            // ignore
+            e.printStackTrace();
         }
         return j.toString();
     }

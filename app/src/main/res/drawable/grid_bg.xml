@@ -4,5 +4,5 @@
         android:width="0.5dp"
         android:color="@color/grey_gap"
         />
-    <solid android:color="@android:color/white"></solid>
+    <solid android:color="@android:color/white" />
 </shape>

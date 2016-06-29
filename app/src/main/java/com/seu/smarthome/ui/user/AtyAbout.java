@@ -2,7 +2,6 @@ package com.seu.smarthome.ui.user;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.LinearLayout;
 
 import com.seu.smarthome.R;
 

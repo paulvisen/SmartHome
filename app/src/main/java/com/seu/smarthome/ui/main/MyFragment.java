@@ -4,32 +4,21 @@ package com.seu.smarthome.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
-import com.seu.smarthome.model.User;
 import com.seu.smarthome.ui.base.BaseFragment;
 import com.seu.smarthome.ui.user.AtyAbout;
 import com.seu.smarthome.ui.user.AtyUserInfo;
-import com.seu.smarthome.util.OkHttpUtils;
 import com.seu.smarthome.util.StrUtils;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2016-04-21.
  */
 public class MyFragment extends BaseFragment implements View.OnClickListener{
-    private User user;
     private final static String TAG = "MyFragment";
 
     @Nullable

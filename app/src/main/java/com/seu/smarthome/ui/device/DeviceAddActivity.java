@@ -10,17 +10,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.seu.smarthome.R;
-import com.seu.smarthome.ui.WifiListActivity;
+import com.seu.smarthome.model.Device;
 
 
 /**
  * Created by Administrator on 2016-04-20.
  */
 public class DeviceAddActivity extends AppCompatActivity implements Button.OnClickListener {
-
-    private Button deviceLightButton;
-    private Button deviceFeedButton;
-    private Button deviceWaterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -32,24 +28,32 @@ public class DeviceAddActivity extends AppCompatActivity implements Button.OnCli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        deviceLightButton=(Button)findViewById(R.id.device_light_button);
-        deviceLightButton.setOnClickListener(this);
-        deviceFeedButton=(Button)findViewById(R.id.device_feed_button);
-        deviceFeedButton.setOnClickListener(this);
-        deviceWaterButton=(Button)findViewById(R.id.device_water_button);
-        deviceWaterButton.setOnClickListener(this);
+        findViewById(R.id.device_light_button).setOnClickListener(this);
+        findViewById(R.id.device_feed_button).setOnClickListener(this);
+        findViewById(R.id.device_water_button).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        Intent intent=new Intent();
-        intent.setClass(this,WifiListActivity.class);
+        Intent intent = new Intent();
+        intent.setClass(DeviceAddActivity.this, DeviceIdentifyActivity.class);
+        switch(view.getId()){
+            case R.id.device_light_button:
+                intent.putExtra("devicetype", Device.DEVICE_TYPE_LIGHT);
+                break;
+            case R.id.device_feed_button:
+                intent.putExtra("devicetype", Device.DEVICE_TYPE_FEED);
+                break;
+            case R.id.device_water_button:
+                intent.putExtra("devicetype", Device.DEVICE_TYPE_WATER);
+                break;
+        }
         startActivity(intent);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId()==android.R.id.home){
+        if(item.getItemId() == android.R.id.home){
             finish();
         }
         return true;

@@ -1,6 +1,5 @@
 package com.seu.smarthome.util;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,6 +24,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 
 /**
@@ -66,6 +67,12 @@ public final class OkHttpUtils {
 
     public static void post(String url, Map<String,String> params,String tag, OkCallBack callback){
         JSONObject j = new JSONObject(params);
+        post(url, j, tag, callback);
+    }
+
+    public static void post(String url, JSONObject j, String tag, OkCallBack callback){
+        if(!NetworkUtils.checkNetwork())
+            return;
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), j.toString());
         Request.Builder builder = new Request.Builder().url(url).post(body);
         if(tag!=null) builder.tag(tag);
@@ -203,18 +210,18 @@ public final class OkHttpUtils {
         }
     }
 
-    public static JSONObject parseJSON(Context context, String s){
+    public static JSONObject parseJSON(String s){
         JSONObject j;
         try {
             j = new JSONObject(s);
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(APP.context(), R.string.network_error, Toast.LENGTH_SHORT).show();
             return null;
         }
         String state = j.optString("state");
         if (!state.equals("successful")) {
-            Toast.makeText(context, j.optString("reason"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(APP.context(), j.optString("reason"), Toast.LENGTH_SHORT).show();
             return null;
         }
         return j;

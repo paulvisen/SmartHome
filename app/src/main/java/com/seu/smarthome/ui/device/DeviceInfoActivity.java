@@ -7,9 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import android.widget.Toast;
-
-import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.ui.base.BaseActivity;
 import com.seu.smarthome.util.OkHttpUtils;
@@ -46,19 +43,16 @@ public class DeviceInfoActivity extends BaseActivity{
     }
 
     private void getData(){
-        if(!APP.networkConnected){
-            Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
-            return;
-        }
         Intent intent = getIntent();
         int deviceID = intent.getIntExtra("deviceid", 0);
+
         Map<String,String> map = new HashMap<>();
         map.put("token", StrUtils.token());
         map.put("deviceid", Integer.toString(deviceID));
         OkHttpUtils.post(StrUtils.GET_DEVICE_DATAILS_URL, map, TAG, new OkHttpUtils.SimpleOkCallBack() {
             @Override
             public void onResponse(String s) {
-                JSONObject j = OkHttpUtils.parseJSON(DeviceInfoActivity.this, s);
+                JSONObject j = OkHttpUtils.parseJSON(s);
                 if(j == null)
                     return;
                 ((TextView)findViewById(R.id.aty_device_info_name)).setText(j.optString("devicename"));

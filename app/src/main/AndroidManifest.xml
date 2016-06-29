@@ -39,7 +39,7 @@
         <activity android:name=".ui.common.TimeTaskActivity" />
         <activity android:name=".ui.user.AtyUserInfo" />
         <activity android:name=".ui.scene.DeviceListActivity" />
-        <activity android:name=".ui.WifiListActivity" />
+        <activity android:name=".ui.device.WifiListActivity" />
         <activity android:name=".ui.device.HistoryActivity" />
         <activity android:name=".ui.user.AtyAbout" />
         <activity android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
