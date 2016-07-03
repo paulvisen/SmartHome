@@ -61,8 +61,25 @@ public class DeviceIdentifyActivity extends BaseActivity implements  Button.OnCl
             Toast.makeText(APP.context(), "请输入设备码和验证码", Toast.LENGTH_SHORT).show();
             return;
         }
+        Map<String, String> map = new HashMap<>();
+        map.put("token", StrUtils.token());
+        map.put("deviceid", etDeviceID.getText().toString());
+        map.put("passwd", etDeviceCode.getText().toString());
+        OkHttpUtils.post(StrUtils.ADD_DEVICE_URL, map, TAG, new OkHttpUtils.SimpleOkCallBack() {
+            @Override
+            public void onResponse(String s) {
+                JSONObject j = OkHttpUtils.parseJSON(s);
+                if (j == null) {
+                    return;
+                }
+                Intent intent = new Intent();
+                intent.setClass(DeviceIdentifyActivity.this, ActivityMain.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
-        final EditText editText = new EditText(this);
+        /*final EditText editText = new EditText(this);
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("设备更新成功，请输入设备名");
         dialog.setView(editText);
@@ -97,7 +114,7 @@ public class DeviceIdentifyActivity extends BaseActivity implements  Button.OnCl
             }
         });
         dialog.setNegativeButton("取消", null);
-        dialog.show();
+        dialog.show();*/
 
     }
 

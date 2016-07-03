@@ -56,6 +56,7 @@ public class DeviceControlActivity extends BaseActivity implements View.OnClickL
             if(!state) {
                 btnControl.setChecked(false);
                 handler.removeCallbacks(runnable);
+                Toast.makeText(APP.context(), "设备已关闭", Toast.LENGTH_SHORT).show();
             }
             else
                 handler.postDelayed(runnable, 2000);
@@ -249,7 +250,7 @@ public class DeviceControlActivity extends BaseActivity implements View.OnClickL
                 state = true;
                 Toast.makeText(APP.context(), "设备已开启", Toast.LENGTH_SHORT).show();
                 if(device.deviceType == Device.DEVICE_TYPE_WATER || device.deviceType == Device.DEVICE_TYPE_FEED)
-                    handler.postDelayed(runnable, 2000);
+                    handler.postDelayed(runnable, 15000);
             }
         });
     }

@@ -173,7 +173,8 @@ public class SceneAddActivity extends BaseActivity implements View.OnClickListen
 
             addScene();
         }
-        finish();
+        else
+            finish();
         return true;
     }
 
@@ -216,6 +217,7 @@ public class SceneAddActivity extends BaseActivity implements View.OnClickListen
                 if (j == null)
                     return;
                 Scene.addToDB(scene);
+                finish();
             }
         });
     }

@@ -13,18 +13,11 @@ import android.view.ViewGroup;
 
 import com.seu.smarthome.R;
 import com.seu.smarthome.adapter.SceneListAdapter;
-import com.seu.smarthome.model.Scene;
 import com.seu.smarthome.ui.base.BaseFragment;
 import com.seu.smarthome.database.SceneDatabaseHelper;
-import com.seu.smarthome.util.OkHttpUtils;
-import com.seu.smarthome.util.StrUtils;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**

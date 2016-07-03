@@ -224,7 +224,6 @@ public class SceneDetailActivity extends BaseActivity implements View.OnClickLis
                         @Override
                         public void onClick(DialogInterface dialog,int which){
                             deleteScene();
-                            finish();
                         }
                     })
                     .setNegativeButton("取消", null);
@@ -348,6 +347,7 @@ public class SceneDetailActivity extends BaseActivity implements View.OnClickLis
                 if (j == null)
                     return;
                 Scene.deleteFromDB(scene);
+                finish();
             }
         });
     }
