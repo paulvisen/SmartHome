@@ -38,7 +38,7 @@
                 android:gravity="center_vertical"
                 android:hint="手机号"
                 android:textColorHint="@color/colorGray"
-                android:inputType="text"
+                android:inputType="phone"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp" />
             <TextView
@@ -97,7 +97,7 @@
             android:gravity="center_vertical"
             android:hint="输入重置密码"
             android:textColorHint="@color/colorGray"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             />
@@ -113,7 +113,7 @@
             android:gravity="center_vertical"
             android:hint="再次输入重置密码"
             android:textColorHint="@color/colorGray"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             />

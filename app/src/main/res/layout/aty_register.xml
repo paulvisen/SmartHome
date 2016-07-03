@@ -1,162 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_gap">
-
-    <LinearLayout
+    android:background="@color/grey_gap"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/aty_register_toolbar"
         android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="用户名" />
+
+    <EditText
+        android:id="@+id/aty_register_name"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:gravity="center_vertical"
+        android:hint="登录帐号(英文)"
+        android:textColorHint="@color/colorGray"
+        android:inputType="text"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="密码" />
+
+    <EditText
+        android:id="@+id/aty_register_pass"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:hint="密码(至少6位)"
+        android:textColorHint="@color/colorGray"
+        android:inputType="textPassword"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="确认密码" />
+
+    <EditText
+        android:id="@+id/aty_register_pass2"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:hint="再次输入密码"
+        android:textColorHint="@color/colorGray"
+        android:inputType="textPassword"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
+
+    <TextView
+        android:id="@+id/aty_register_contract"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text='注册表示您同意"智居用户协议",请先阅读>>'
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/aty_register_error"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/red" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/aty_register_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/colorPrimary" />
+    <TextView
+        android:id="@+id/aty_register_register"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_aty_register_btn"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="注册"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@mipmap/app_icon"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="50dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/user"
-                android:layout_gravity="center_vertical" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:gravity="center_vertical"
-                android:text="账号"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp"/>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/grey_gap"/>
-            <EditText
-                android:id="@+id/aty_register_name"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                android:gravity="center_vertical"
-                android:hint="登录帐号(英文)"
-                android:textColorHint="@color/colorGray"
-                android:inputType="text"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/password"
-                android:layout_gravity="center_vertical" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:gravity="center_vertical"
-                android:text="密码"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp"/>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/grey_gap"/>
-            <EditText
-                android:id="@+id/aty_register_pass"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                android:gravity="center_vertical"
-                android:hint="密码(至少6位)"
-                android:textColorHint="@color/colorGray"
-                android:inputType="textPassword"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/password"
-                android:layout_gravity="center_vertical" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:gravity="center_vertical"
-                android:text="密码"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp" />
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/grey_gap"/>
-            <EditText
-                android:id="@+id/aty_register_pass2"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                android:gravity="center_vertical"
-                android:hint="再次输入密码"
-                android:textColorHint="@color/colorGray"
-                android:inputType="textPassword"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/aty_register_contract"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text='注册表示您同意"智居用户协议",请先阅读>>'
-            android:textColor="@color/colorPrimary" />
-
-        <TextView
-            android:id="@+id/aty_register_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/red" />
-
-        <TextView
-            android:id="@+id/aty_register_register"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/bg_aty_register_btn"
-            android:enabled="false"
-            android:gravity="center"
-            android:text="注册"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

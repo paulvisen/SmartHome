@@ -17,6 +17,21 @@
     <View
         android:background="@null"
         android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:background="@color/white"
+        android:id="@+id/aty_info_option_logout"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:text="@string/logout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <View
+        android:background="@null"
+        android:layout_width="match_parent"
         android:layout_height="6dp"/>
 
     <TextView

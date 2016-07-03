@@ -11,9 +11,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import com.seu.smarthome.APP;
 import com.seu.smarthome.R;
 import com.seu.smarthome.ui.base.BaseActivity;
 import com.seu.smarthome.util.LogUtils;
@@ -27,20 +29,20 @@ import com.seu.smarthome.util.StrUtils;
 public class AtyRegister extends BaseActivity {
     private static final String TAG = "AtyRegister";
 
-    EditText etName;
-    EditText etPass;
-    EditText etPass2;
-    TextView tvContract;
-    TextView tvRegister;
-    TextView tvError;
+    private EditText etName;
+    private EditText etPass;
+    private EditText etPass2;
+    private TextView tvContract;
+    private TextView tvRegister;
+    private TextView tvError;
 
-    TextWatcher mTextWatcher;
-    View.OnClickListener mListener;
+    private TextWatcher mTextWatcher;
+    private View.OnClickListener mListener;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_register);
         Toolbar toolbar = (Toolbar) findViewById(R.id.aty_register_toolbar);
-        toolbar.setTitle(R.string.register_weme_user);
+        toolbar.setTitle(R.string.register_smarthome_user);
         toolbar.setTitleTextColor(Color.WHITE);
 
         etName = (EditText) findViewById(R.id.aty_register_name);
@@ -73,6 +75,10 @@ public class AtyRegister extends BaseActivity {
         mListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!APP.networkConnected){
+                    Toast.makeText(APP.context(), "请连接网络", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 register();
             }
         };
@@ -105,7 +111,7 @@ public class AtyRegister extends BaseActivity {
     }
 
     private void register(){
-        String name = etName.getText().toString();
+        final String name = etName.getText().toString();
         String passMD5 = StrUtils.md5(etPass.getText().toString());
         ArrayMap<String,String> param = new ArrayMap<>();
         param.put("username",name);
@@ -114,16 +120,15 @@ public class AtyRegister extends BaseActivity {
             @Override
             public void onResponse(String s) {
                 LogUtils.i(TAG,s);
-                JSONObject j = OkHttpUtils.parseJSON(AtyRegister.this, s);
+                JSONObject j = OkHttpUtils.parseJSON(s);
                 if(j == null){
                     return;
                 }
                 String id = j.optString("id");
                 String token = j.optString("token");
                 SharedPreferences sp = getSharedPreferences(StrUtils.SP_USER,MODE_PRIVATE);
-                sp.edit().putString(StrUtils.SP_USER_ID,id)
-                        .putString(StrUtils.SP_USER_TOKEN,token).apply();
-                Intent i = new Intent(AtyRegister.this,AtyEditInfo.class);
+                sp.edit().putString(StrUtils.SP_USER_TOKEN, token).putString(StrUtils.SP_USER_ID, id).putString(StrUtils.SP_UEER_NAME, name).apply();
+                Intent i = new Intent(AtyRegister.this,AtyLogin.class);
                 startActivity(i);
             }
         });

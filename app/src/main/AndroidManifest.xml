@@ -27,32 +27,23 @@
         <activity android:name=".ui.intro.AtyLogin" />
         <activity android:name=".ui.intro.AtyRegister" />
         <activity android:name=".ui.intro.AtyContract" />
-        <activity android:name=".ui.intro.AtyEditInfo" />
+        <activity android:name=".ui.user.AtyEditInfo" />
         <activity android:name=".ui.intro.AtyResetPasswd" />
         <activity android:name=".ui.main.ActivityMain" />
-        <activity android:name=".ui.main.DeviceAddActivity" />
-        <activity android:name=".ui.main.DeviceIdentifyActivity" />
-        <activity android:name=".ui.main.DeviceInfoActivity" />
-        <activity android:name=".ui.main.DeviceControlActivity" />
-        <activity android:name=".ui.main.SceneAddActivity" />
-        <activity android:name=".ui.main.SceneDetailActivity" />
-        <activity android:name=".ui.main.TimeTaskActivity" />
+        <activity android:name=".ui.device.DeviceAddActivity" />
+        <activity android:name=".ui.device.DeviceIdentifyActivity" />
+        <activity android:name=".ui.device.DeviceInfoActivity" />
+        <activity android:name=".ui.device.DeviceControlActivity" />
+        <activity android:name=".ui.scene.SceneAddActivity" />
+        <activity android:name=".ui.scene.SceneDetailActivity" />
+        <activity android:name=".ui.common.TimeTaskActivity" />
         <activity android:name=".ui.user.AtyUserInfo" />
+        <activity android:name=".ui.scene.DeviceListActivity" />
+        <activity android:name=".ui.device.WifiListActivity" />
+        <activity android:name=".ui.device.HistoryActivity" />
+        <activity android:name=".ui.user.AtyAbout" />
         <activity android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="56ad96c667e58ef41100249d" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="seu" />
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="fb85887c5598e510ac43099cd1eefc9a" />
-
-        <activity android:name=".ui.main.DeviceListActivity" />
-        <activity android:name=".ui.main.WifiListActivity" />
-        <activity android:name=".ui.main.HistoryActivity"></activity>
     </application>
 
 </manifest>

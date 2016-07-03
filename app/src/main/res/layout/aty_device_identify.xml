@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.seu.smarthome.ui.main.DeviceIdentifyActivity">
+    tools:context=".ui.device.DeviceIdentifyActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -33,6 +33,7 @@
             android:text="@string/device_code"
             android:textSize="20sp"/>
         <EditText
+            android:id="@+id/aty_device_identify_device_id"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -43,17 +44,19 @@
             android:text="@string/identify_code"
             android:textSize="20sp"/>
         <EditText
+            android:id="@+id/aty_device_identify_device_code"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginBottom="20dp"/>
         <Button
             android:id="@+id/submit_button"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/bg_aty_register_btn"
-            android:text="提交" />
+            android:text="提交"
+            android:textColor="@color/white"/>
     </LinearLayout>
 
 

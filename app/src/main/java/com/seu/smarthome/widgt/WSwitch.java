@@ -2,7 +2,6 @@ package com.seu.smarthome.widgt;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -19,14 +18,14 @@ import com.seu.smarthome.util.DimensionUtils;
  * liujilong.me@gmail.com
  */
 public class WSwitch extends ViewGroup {
-    TextView tvOn;
-    TextView tvOff;
-    String textOn;
-    String textOff;
-    int colorOn;
-    int colorOff;
+    private TextView tvOn;
+    private TextView tvOff;
+    private String textOn;
+    private String textOff;
+    private int colorOn;
+    private int colorOff;
 
-    boolean isOn = true;
+    private boolean isOn = true;
 
 
     public WSwitch(Context context) {

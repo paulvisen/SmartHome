@@ -110,6 +110,7 @@
                     android:id="@+id/aty_editinfo_phone"
                     android:background="@null"
                     android:hint="请输入手机号"
+                    android:inputType="phone"
                     android:textColorHint="@color/colorGray"
                     android:layout_gravity="center_vertical"
                     android:gravity="end|center_vertical"

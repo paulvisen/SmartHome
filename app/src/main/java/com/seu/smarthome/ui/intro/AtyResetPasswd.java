@@ -1,10 +1,8 @@
 package com.seu.smarthome.ui.intro;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,15 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
 import com.seu.smarthome.R;
 import com.seu.smarthome.ui.base.BaseActivity;
-import com.seu.smarthome.util.LogUtils;
-import com.seu.smarthome.util.StrUtils;
-
-import com.seu.smarthome.ui.base.BaseActivity;
-
 
 
 /**
@@ -31,16 +22,16 @@ public class AtyResetPasswd extends BaseActivity {
 
     private final static String TAG="AtyResetPasswd";
 
-    EditText etPhone;
-    EditText etVerification;
-    EditText etNewPass1;
-    EditText etNewPass2;
+    private EditText etPhone;
+    private EditText etVerification;
+    private EditText etNewPass1;
+    private EditText etNewPass2;
 
-    TextView tvGetVerification;
-    TextView tvCommit;
+    private TextView tvGetVerification;
+    private TextView tvCommit;
 
-    TextWatcher mTextWatcher;
-    View.OnClickListener mListener;
+    private TextWatcher mTextWatcher;
+    private View.OnClickListener mListener;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

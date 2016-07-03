@@ -1,6 +1,10 @@
 package com.seu.smarthome.model;
 
-import org.json.JSONObject;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.seu.smarthome.APP;
+import com.seu.smarthome.database.SceneDatabaseHelper;
 
 /**
  * Created by jwcui on 2016/5/3.
@@ -13,22 +17,16 @@ public class DelayTask extends Task {
         delayTime = 0;
     }
 
-    public static DelayTask fromJSON(JSONObject j){
-        DelayTask delayTask = new DelayTask();
-        delayTask.taskID = j.optInt("id");
-        delayTask.taskType = j.optInt("tasktype");
-        delayTask.delayTime = j.optInt("delaytime");
-        return  delayTask;
-    }
+    public static void addToDB(Task task, int sceneid){
+        SceneDatabaseHelper dbHelper = new SceneDatabaseHelper(APP.context(), "scene.db", null, SceneDatabaseHelper.VERSION);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-    public String toJSONString(){
-        JSONObject j = new JSONObject();
-        try {
-            j.put("tasktype",taskType);
-            j.put("delaytime",delayTime);
-        }catch(Exception e){
-            // ignore
-        }
-        return j.toString();
+        ContentValues values = new ContentValues();
+        DelayTask temp = (DelayTask)task;
+        values.put("sceneid", sceneid);
+        values.put("tasktype", temp.taskType);
+        values.put("amount", temp.delayTime);
+        db.insert("task", null, values);
+        db.close();
     }
 }

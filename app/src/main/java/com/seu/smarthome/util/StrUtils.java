@@ -5,16 +5,10 @@ import android.content.SharedPreferences;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.MediaType;
 import com.seu.smarthome.APP;
-import com.seu.smarthome.R;
 
 /**
  * Created by Liujilong on 16/1/22.
@@ -27,103 +21,53 @@ public final class StrUtils {
 
 
     /** ####################### URLs ############################### **/
-    private static final String BASE_URL = "http://218.244.147.240:8080/";
+    private static final String BASE_URL = "http://115.28.190.18:8080/";
 
-    private static final String BASE_URL_NGINX = "http://218.244.147.240/";
+    private static final String BASE_URL_NGINX = "http://115.28.190.18/";
 
     public static final String LOGIN_URL = BASE_URL + "login";
 
     public static final String REGISTER_URL = BASE_URL + "register";
 
-    public static final String EDIT_PROFILE_URL = BASE_URL + "editprofileinfo";
+    public static final String EDIT_PROFILE_URL = BASE_URL + "editprofile";
 
-    public static final String GET_TOP_ACTIVITY_URL = BASE_URL + "activitytopofficial";
+    public static final String GET_PROFILE_URL = BASE_URL + "getprofile";
 
-    public static final String GET_ACTIVITY_INFO_URL = BASE_URL + "getactivityinformation";
+    public static final String EDIT_PASSWORD_URL = BASE_URL + "editpasswd";
 
-    public static final String TOP_BROAD_URL = BASE_URL + "topofficial";
+    public static final String GET_DEVICE_LIST_URL = BASE_URL + "getdevicelist";
 
-    public static final String GET_PERSON_INFO = BASE_URL + "getprofile";
+    public static final String GET_DEVICE_STATE_URL = BASE_URL + "getdevicedetails";
 
-    public static final String GET_UNREAD_MESSAGE_URL = BASE_URL + "getmessageunreadnumber";
+    public static final String GET_DEVICE_HISTORY_URL = BASE_URL + "getdevicedata";
 
-    public static final String GET_TOPIC_LIST = BASE_URL + "gettopiclist";
+    public static final String GET_DEVICE_DATAILS_URL = BASE_URL + "getdevevicedetails";
 
-    public static final String GET_TOPIC_INFO = BASE_URL + "gettopicslogan";
+    public static final String ADD_DEVICE_URL = BASE_URL + "adddevicelist";
 
-    public static final String GET_POST_LIST = BASE_URL + "getpostlist";
+    public static final String GET_SCENE_TASK_URL = BASE_URL + "getscenetask";
 
-    public static final String GET_VISIT_INFO = BASE_URL + "visitinfo";
+    public static final String SUBMIT_SCENE_URL = BASE_URL + "submitscene";
 
-    public static final String GET_PROFILE_BY_ID = BASE_URL + "getprofilebyid";
+    public static final String DELETE_SCENE_TASK_URL = BASE_URL + "delescenetask";
 
-    public static final String GET_POST_DETAIL = BASE_URL + "getpostdetail";
+    public static final String START_SCENE_URL = BASE_URL + "startscene";
 
-    public static final String GET_POST_COMMIT = BASE_URL + "getpostcomment";
-
-    public static final String LIKE_POST_URL = BASE_URL + "likepost";
-
-    public static final String LIKE_COMMET_URL = BASE_URL + "likecomment";
-
-    public static final String PUBLISH_POST_URL = BASE_URL + "publishpost";
-
-    public static final String COMMENT_TO_COMMENT_URL = BASE_URL + "commenttocomment";
-
-    public static final String COMMENT_TO_POST_URL = BASE_URL + "commenttopost";
-
-    public static final String GET_TIME_LINE_URL = BASE_URL + "getusertimeline";
-
-    public static final String GET_USER_IMAGES_URL = BASE_URL + "getuserimages";
-
-    public static final String GET_FOLLOWERS_URL = BASE_URL + "followview";
-
-    public static final String SEARCH_USER_URL = BASE_URL + "searchuser";
-
-    public static final String GET_USER_MESSAGE_LIST = BASE_URL + "getSendUserList";
-
-    public static final String GET_MESSAGE_DETAIL = BASE_URL + "getMessageDetailList";
-
-    public static final String SEND_MESSAGE = BASE_URL + "sendmessage";
-
-    public static final String GET_PUBLISH_ACTIVITY = BASE_URL + "getpublishactivity";
-
-    public static final String GET_REGISTER_ACTIVITY = BASE_URL + "getattentactivity";
-
-    public static final String GET_LIKE_ACTIVITY = BASE_URL + "getlikeactivity";
-
-    public static final String GET_RECOMMEND_USER = BASE_URL + "getrecommenduser";
-
-    public static final String FOLLOW_USER = BASE_URL + "follow";
-
-    public static final String UNFOLLOW_USER = BASE_URL + "unfollow";
-
-    public static final String GET_RECOMMEND_FOOD = BASE_URL + "getfoodcard";
-
-    public static final String LIKE_FOOD_URL = BASE_URL + "likefoodcard";
-
-    public static final String EDIT_CARD_SETTING = BASE_URL + "editprofile/editcardsetting";
-
-    public static final String GET_ACTIVITY_DETAIL_URL=BASE_URL+"getactivitydetail";
-
-    public static final String DEL_SIGN_ACTIVITY=BASE_URL+"deletesignup";
-
-    public static final String UNLIKE_ACTIVITY=BASE_URL+"unlikeactivity";
-
-    public static final String LIKE_ACTIVITY=BASE_URL+"likeactivity";
-
-    public static final String SIGN_ACTIVITY=BASE_URL+"signup";
-
-    public static final String PUBLISH_ACTIVITY=BASE_URL+"publishactivity";
-
-    public static final String SEARCH_ACTIVITY=BASE_URL+"searchactivity";
-
-
+    public static final String CLOSE_SCENE_URL = BASE_URL + "closescenetask";
 
     public static final String GET_AVATAR = BASE_URL_NGINX + "avatar/";
 
     public static final String UPLOAD_AVATAR_URL = BASE_URL_NGINX + "uploadavatar";
 
     public static final String GET_BACKGROUND = BASE_URL_NGINX + "background/";
+
+    public static final String SET_DEVICE_TIMING_TASK_URL = BASE_URL + "setdevicetimingtask";
+
+    public static final String SET_DEVICE_REALTIME_TASK_URL = BASE_URL + "setdevicerealtimetask";
+
+    public static final String CANCEL_DEVICE_TIMING_TASK_URL = BASE_URL + "canceldevicetimingtask";
+
+    public static final String CANCEL_DEVICE_REALTIME_TASK_URL = BASE_URL + "canceldevicerealtimetask";
 
     public static String thumForID(String id){
         return GET_AVATAR + id + "_thumbnail.jpg";
@@ -141,6 +85,7 @@ public final class StrUtils {
     public static final String SP_USER = "StrUtils_sp_user";
     public static final String SP_USER_TOKEN = SP_USER + "_token";
     public static final String SP_USER_ID = SP_USER + "_id";
+    public static final String SP_UEER_NAME = SP_USER + "_name";
     public static final String SP_USER_CAN_FOUND = SP_USER +"_can_found";
 
     public static final MediaType MEDIA_TYPE_IMG = MediaType.parse("image/*");
@@ -153,6 +98,11 @@ public final class StrUtils {
     public static String id(){
         SharedPreferences sp = APP.context().getSharedPreferences(SP_USER, Context.MODE_PRIVATE);
         return sp.getString(SP_USER_ID,"");
+    }
+
+    public static String username(){
+        SharedPreferences sp = APP.context().getSharedPreferences(SP_USER, Context.MODE_PRIVATE);
+        return sp.getString(SP_UEER_NAME,"");
     }
 
     public static String md5(String input){
@@ -195,5 +145,24 @@ public final class StrUtils {
                 return result;
             }
         }
+    }
+
+    public static String timeInt2Str(int time){
+        String hour = String.format("%02d", time / 60);
+        String minute = String.format("%02d", time % 60);
+        return hour + ":" + minute;
+    }
+
+    public static String daysInt2Str(int days){
+        return String.format("%7s", Integer.toBinaryString(days)).replace(' ', '0');
+    }
+
+    public static int timeStr2Int(String time){
+        String str[] = time.split(":");
+        return Integer.parseInt(str[0]) * 60 + Integer.parseInt(str[1]);
+    }
+
+    public static int daysStr2Int(String days){
+        return Integer.valueOf(days, 2);
     }
 }

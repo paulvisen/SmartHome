@@ -3,17 +3,19 @@ package com.seu.smarthome.ui.main;
 import android.content.Intent;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.seu.smarthome.R;
+import com.seu.smarthome.ui.device.DeviceAddActivity;
+import com.seu.smarthome.ui.intro.AtyLogin;
+import com.seu.smarthome.ui.scene.SceneAddActivity;
 import com.seu.smarthome.widgt.TabItem;
 
 /**
@@ -25,7 +27,7 @@ public class ActivityMain extends AppCompatActivity {
     private TabItem[] tabItems;
     private ViewPager viewPager;
     private TextView title;
-    private int[] titles = new int[]{
+    private final int[] titles = new int[]{
             R.string.equipment,
             R.string.scene,
             R.string.me
@@ -33,15 +35,42 @@ public class ActivityMain extends AppCompatActivity {
 
     private int tabSelected;
 
+    private FloatingActionButton floatingActionButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getIntent().getBooleanExtra("logout", false))
+        {
+            Intent i = new Intent(this,AtyLogin.class);
+            startActivity(i);
+            finish();
+            return;
+        }
         setContentView(R.layout.aty_main);
         setTitle("");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         title = (TextView)findViewById(R.id.main_title);
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.aty_main_button_add);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tabSelected == 0) {
+                    Intent intent = new Intent();
+                    intent.setClass(ActivityMain.this, DeviceAddActivity.class);
+                    startActivity(intent);
+                }
+                else if(tabSelected == 1){
+                    Intent intent = new Intent();
+                    intent.setClass(ActivityMain.this, SceneAddActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         bindViews();
     }
@@ -69,7 +98,12 @@ public class ActivityMain extends AppCompatActivity {
                     tabItems[i].setEnable(i == position);
                 }
                 tabSelected = position;
-                invalidateOptionsMenu();
+                //invalidateOptionsMenu();
+
+                if(tabSelected == 2)
+                    floatingActionButton.hide();
+                else
+                    floatingActionButton.show();
             }
 
             @Override
@@ -90,7 +124,7 @@ public class ActivityMain extends AppCompatActivity {
 
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(tabSelected == 0 || tabSelected == 1)
             getMenuInflater().inflate(R.menu.menu_add, menu);
@@ -110,7 +144,7 @@ public class ActivityMain extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     public class Adapter extends FragmentPagerAdapter {
 

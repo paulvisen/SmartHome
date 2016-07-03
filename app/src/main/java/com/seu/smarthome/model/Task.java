@@ -1,6 +1,5 @@
 package com.seu.smarthome.model;
 
-import org.json.JSONObject;
 
 /**
  * Created by jwcui on 2016/5/3.

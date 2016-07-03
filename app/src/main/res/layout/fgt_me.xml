@@ -15,7 +15,8 @@
             android:id="@+id/fgt_me_me"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 app:placeholderImage="@mipmap/default_avatar"
@@ -31,17 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textSize="16sp"
-                android:text="用户名"/>
-            <ImageView
-                android:id="@+id/fgt_me_gender"
-                android:layout_marginRight="12dp"
-                android:layout_marginEnd="12dp"
-                android:padding="12dp"
-                android:layout_gravity="center_vertical|end"
-                android:src="@mipmap/boy"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:textSize="16sp" />
         </FrameLayout>
 
         <View
@@ -61,7 +52,8 @@
         <LinearLayout
             android:id="@+id/fgt_me_activity"
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground">
 
             <ImageView
                 android:layout_gravity="center_vertical"
@@ -97,7 +89,8 @@
         <LinearLayout
             android:id="@+id/fgt_me_setting"
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground">
 
             <ImageView
                 android:layout_gravity="center_vertical"
@@ -129,7 +122,8 @@
         <LinearLayout
             android:id="@+id/fgt_me_about"
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground">
 
             <ImageView
                 android:layout_gravity="center_vertical"
