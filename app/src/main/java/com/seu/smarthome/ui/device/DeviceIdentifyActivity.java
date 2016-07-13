@@ -32,7 +32,7 @@ public class DeviceIdentifyActivity extends BaseActivity implements  Button.OnCl
     private EditText etDeviceID;
     private EditText etDeviceCode;
 
-    private int deviceType;
+    //private int deviceType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,8 +45,8 @@ public class DeviceIdentifyActivity extends BaseActivity implements  Button.OnCl
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-        deviceType = intent.getIntExtra("devicetype", 0);
+        //Intent intent = getIntent();
+        //deviceType = intent.getIntExtra("devicetype", 0);
 
         findViewById(R.id.submit_button).setOnClickListener(this);
 

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -31,7 +32,7 @@ public class TimeTaskActivity extends  AppCompatActivity implements TextView.OnC
 
     private Switch timeTaskSwitch;
     private TextView startTimeLabel;
-    private View cover;
+    private ViewStub cover;
 
     private int startTime;
     private int days;
@@ -46,7 +47,7 @@ public class TimeTaskActivity extends  AppCompatActivity implements TextView.OnC
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        cover = findViewById(R.id.aty_time_task_cover);
+        cover = (ViewStub)findViewById(R.id.aty_time_task_cover);
         cover.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -149,10 +150,7 @@ public class TimeTaskActivity extends  AppCompatActivity implements TextView.OnC
     }
 
     private void setClickable(boolean clickable){
-        if(clickable) {
-            cover.setVisibility(View.GONE);
-        }
-        else {
+        if(!clickable) {
             cover.setVisibility(View.VISIBLE);
             Toast.makeText(APP.context(), "打开编辑状态可进行修改", Toast.LENGTH_SHORT).show();
         }

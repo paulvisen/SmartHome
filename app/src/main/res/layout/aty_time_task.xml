@@ -174,7 +174,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <View
+        <ViewStub
             android:id="@+id/aty_time_task_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

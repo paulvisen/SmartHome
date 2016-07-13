@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3e5d9e</color>
+    <color name="colorPrimary">#008bb2</color>
+    <color name="colorPrimaryDisabled">#30008bb2</color>
+    <color name="colorPrimaryPressed">#006b92</color>
     <color name="colorGray">#c5c5da</color>
-
-    <color name="blue_50">#e7e9fd</color>
-    <color name="blue_100">#d0d0ff</color>
-    <color name="blue_200">#afbfff</color>
-    <color name="blue_300">#91a7ff</color>
-    <color name="blue_400">#738ffe</color>
-    <color name="blue_500">#5677fc</color>
-    <color name="blue_600">#4e6cef</color>
-    <color name="blue_700">#455ede</color>
-    <color name="blue_800">#3b50ce</color>
-    <color name="blue_900">#2a36b1</color>
 
     <color name="white">#ffffffff</color>
     <color name="grey_gap">#eaeaea</color>
     <color name="red">#ff0000</color>
     <color name="black">#000000</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#008bb2</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="lightBlue">#40a2ff</color>
+    <color name="darkBlue">#3082e0</color>
 </resources>
