@@ -76,6 +76,9 @@ public class ActivityMain extends AppCompatActivity {
         bindViews();
     }
 
+    public void scrollToPosition(int position){
+        viewPager.setCurrentItem(position);
+    }
     @Override
     public void onBackPressed() {
         //退出再次进入不显示欢迎页

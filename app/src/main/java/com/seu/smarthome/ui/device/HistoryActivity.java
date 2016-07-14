@@ -66,11 +66,19 @@ public class HistoryActivity extends BaseActivity {
                 JSONArray array = j.optJSONArray("historydata");
                 ArrayList<String> xVals = new ArrayList<>();
                 ArrayList<BarEntry> yVals = new ArrayList<>();
-                for(int i = 0; i < array.length(); ++i){
+
+                //最多保留六条记录
+                int i = array.length() > 6 ? array.length() - 6 : 0;
+                int k = 0;
+                for(; i < array.length(); ++i){
                     JSONObject object = array.optJSONObject(i);
                     float amount = (float)object.optInt("amount");
-                    yVals.add(new BarEntry(amount, i));
-                    xVals.add(object.optString("starttime"));
+                    yVals.add(new BarEntry(amount, k));
+                    ++k;
+
+                    String starttime = object.optString("starttime");
+                    String str[] = starttime.split(" ");
+                    xVals.add(str[str.length-2]);
                 }
 
                 BarDataSet dataSet = new BarDataSet(yVals,"value");

@@ -27,6 +27,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
         View view = inflater.inflate(R.layout.fgt_me,null);
         view.findViewById(R.id.fgt_me_me).setOnClickListener(this);
         view.findViewById(R.id.fgt_me_about).setOnClickListener(this);
+        view.findViewById(R.id.fgt_me_device).setOnClickListener(this);
         ((TextView)view.findViewById(R.id.fgt_me_name)).setText(StrUtils.username());
 
         return view;
@@ -43,6 +44,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
             case R.id.fgt_me_about:
                 i = new Intent(getActivity(), AtyAbout.class);
                 getActivity().startActivity(i);
+                break;
+            case R.id.fgt_me_device:
+                ((ActivityMain)getActivity()).scrollToPosition(0);
                 break;
         }
     }
