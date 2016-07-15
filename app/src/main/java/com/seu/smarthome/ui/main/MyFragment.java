@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.seu.smarthome.R;
 import com.seu.smarthome.ui.base.BaseFragment;
 import com.seu.smarthome.ui.user.AtyAbout;
+import com.seu.smarthome.ui.user.AtyMyDevice;
 import com.seu.smarthome.ui.user.AtyUserInfo;
 import com.seu.smarthome.util.StrUtils;
 
@@ -46,7 +47,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener{
                 getActivity().startActivity(i);
                 break;
             case R.id.fgt_me_device:
-                ((ActivityMain)getActivity()).scrollToPosition(0);
+                i = new Intent(getActivity(), AtyMyDevice.class);
+                getActivity().startActivity(i);
                 break;
         }
     }

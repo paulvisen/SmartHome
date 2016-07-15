@@ -48,7 +48,7 @@
         <activity android:name=".ui.device.HistoryActivity" />
         <activity android:name=".ui.user.AtyAbout" />
         <activity android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
-
+        <activity android:name=".ui.user.AtyMyDevice"></activity>
     </application>
 
 </manifest>
