@@ -158,12 +158,7 @@ public class Scene {
     public static void addToDB(Scene scene){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("select max(id) as maxid from scene", null);
-        if(cursor.moveToFirst())
-            scene.sceneID = cursor.getInt(cursor.getColumnIndex("maxid")) + 1;
-        else
-            scene.sceneID = 1;
-        cursor.close();
+        getSceneID(scene);
 
         ContentValues values = new ContentValues();
         values.put("id", scene.sceneID);

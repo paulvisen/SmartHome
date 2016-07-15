@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -32,7 +31,7 @@ public class TimeTaskActivity extends  AppCompatActivity implements TextView.OnC
 
     private Switch timeTaskSwitch;
     private TextView startTimeLabel;
-    private ViewStub cover;
+    private View cover;
 
     private int startTime;
     private int days;
@@ -47,7 +46,7 @@ public class TimeTaskActivity extends  AppCompatActivity implements TextView.OnC
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        cover = (ViewStub)findViewById(R.id.aty_time_task_cover);
+        cover = findViewById(R.id.aty_time_task_cover);
         cover.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
