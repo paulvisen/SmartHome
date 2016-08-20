@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.seu.smarthome.R;
-import com.seu.smarthome.ui.device.DeviceAddActivity;
+import com.seu.smarthome.ui.device.DeviceIdentifyActivity;
 import com.seu.smarthome.ui.intro.AtyLogin;
 import com.seu.smarthome.ui.scene.SceneAddActivity;
 import com.seu.smarthome.widgt.TabItem;
@@ -39,6 +39,7 @@ public class ActivityMain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         if (getIntent().getBooleanExtra("logout", false))
@@ -61,7 +62,7 @@ public class ActivityMain extends AppCompatActivity {
             public void onClick(View v) {
                 if(tabSelected == 0) {
                     Intent intent = new Intent();
-                    intent.setClass(ActivityMain.this, DeviceAddActivity.class);
+                    intent.setClass(ActivityMain.this, DeviceIdentifyActivity.class);
                     startActivity(intent);
                 }
                 else if(tabSelected == 1){
@@ -73,6 +74,19 @@ public class ActivityMain extends AppCompatActivity {
         });
 
         bindViews();
+    }
+
+    public void scrollToPosition(int position){
+        viewPager.setCurrentItem(position);
+    }
+    @Override
+    public void onBackPressed() {
+        //退出再次进入不显示欢迎页
+        // super.onBackPressed();   不要调用父类的方法
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
     }
 
     private void bindViews(){

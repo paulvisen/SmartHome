@@ -1,4 +1,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/bg_aty_register_btn_enable" android:state_enabled="true"/>
-    <item android:drawable="@drawable/bg_aty_register_btn_disabled" android:state_enabled="false"/>
+    <item android:drawable="@drawable/bg_aty_register_btn_enable" android:state_enabled="true" android:state_pressed="false"/>
+    <item android:drawable="@drawable/bg_aty_register_btn_disabled" android:state_enabled="false" android:state_pressed="false"/>
+    <item android:drawable="@drawable/bg_aty_register_btn_pressed" android:state_enabled="true" android:state_pressed="true"/>
 </selector>

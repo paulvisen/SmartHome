@@ -21,15 +21,19 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<Device> list;
     private Context context;
     private View.OnClickListener listener;
+    private boolean clickable;
 
     public DeviceListAdapter(Context context, List<Device> itemList) {
         this.list = itemList;
         this.context = context;
+        this.clickable = true;
     }
 
     public void setListener(View.OnClickListener listener){
         this.listener = listener;
     }
+
+    public void setClickable(boolean clickable){this.clickable = clickable;}
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,6 +61,9 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             itemViewHolder.deviceName.setText(item.deviceName);
             itemViewHolder.itemView.setTag(position);
             itemViewHolder.itemView.setOnClickListener(listener);
+            if(!clickable){
+                itemViewHolder.deviceMore.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -68,12 +75,14 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView deviceTypeImage;
         TextView deviceName;
+        ImageView deviceMore;
 
         public ItemViewHolder(View view){
             super(view);
 
             deviceTypeImage =(ImageView)view.findViewById(R.id.device_type_image);
             deviceName = (TextView)view.findViewById(R.id.device_name);
+            deviceMore = (ImageView)view.findViewById(R.id.device_item_more);
         }
     }
 

@@ -49,7 +49,7 @@ public class AtyContract extends Activity {
                     tvContract.post(new Runnable() {
                         @Override
                         public void run() {
-                            tvContract.setText(res);
+                            tvContract.setText(toDBC(res));
                         }
                     });
                 }catch(Exception e){
@@ -58,6 +58,19 @@ public class AtyContract extends Activity {
 
             }
         }.run();
+    }
+
+    //将半角转换为全角
+    public static String toDBC(String input) {
+        char c[] = input.toCharArray();
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] < '\177' && c[i] != '\r' && c[i] != '\n' && c[i] != '\t') {
+                c[i] = (char) (c[i] + 65248);
+            }
+            if(c[i] == '\t')
+                c[i] = '\u3000';
+        }
+        return new String(c);
     }
 
 }

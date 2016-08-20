@@ -149,10 +149,7 @@ public class TimeTaskActivity extends  AppCompatActivity implements TextView.OnC
     }
 
     private void setClickable(boolean clickable){
-        if(clickable) {
-            cover.setVisibility(View.GONE);
-        }
-        else {
+        if(!clickable) {
             cover.setVisibility(View.VISIBLE);
             Toast.makeText(APP.context(), "打开编辑状态可进行修改", Toast.LENGTH_SHORT).show();
         }

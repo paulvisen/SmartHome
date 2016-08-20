@@ -17,11 +17,17 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.intro.AtyWelcome"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.main.ActivityMain">
+            <intent-filter>
+                <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.intro.AtyLogin" />
@@ -29,7 +35,6 @@
         <activity android:name=".ui.intro.AtyContract" />
         <activity android:name=".ui.user.AtyEditInfo" />
         <activity android:name=".ui.intro.AtyResetPasswd" />
-        <activity android:name=".ui.main.ActivityMain" />
         <activity android:name=".ui.device.DeviceAddActivity" />
         <activity android:name=".ui.device.DeviceIdentifyActivity" />
         <activity android:name=".ui.device.DeviceInfoActivity" />
@@ -43,7 +48,7 @@
         <activity android:name=".ui.device.HistoryActivity" />
         <activity android:name=".ui.user.AtyAbout" />
         <activity android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
-
+        <activity android:name=".ui.user.AtyMyDevice"></activity>
     </application>
 
 </manifest>

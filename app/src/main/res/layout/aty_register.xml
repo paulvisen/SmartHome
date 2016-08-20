@@ -11,12 +11,14 @@
         android:background="@color/colorPrimary" />
 
     <TextView
+        android:background="@color/grey_gap"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="用户名" />
+        android:layout_height="wrap_content"
+        android:text="用户名"
+        android:textSize="14sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="16dp"/>
 
     <EditText
         android:id="@+id/aty_register_name"
@@ -32,12 +34,14 @@
         android:paddingRight="16dp" />
 
     <TextView
+        android:background="@color/grey_gap"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="密码" />
+        android:layout_height="wrap_content"
+        android:text="密码"
+        android:textSize="14sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="16dp"/>
 
     <EditText
         android:id="@+id/aty_register_pass"
@@ -52,12 +56,14 @@
         android:paddingRight="16dp" />
 
     <TextView
+        android:background="@color/grey_gap"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="确认密码" />
+        android:layout_height="wrap_content"
+        android:text="确认密码"
+        android:textSize="14sp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="16dp"/>
 
     <EditText
         android:id="@+id/aty_register_pass2"

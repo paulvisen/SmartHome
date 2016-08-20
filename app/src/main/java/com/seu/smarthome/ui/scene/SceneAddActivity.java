@@ -3,6 +3,7 @@ package com.seu.smarthome.ui.scene;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,6 +74,12 @@ public class SceneAddActivity extends BaseActivity implements View.OnClickListen
             int position = viewHolder.getAdapterPosition();
             list.remove(position);
             adapter.notifyItemRemoved(position);
+        }
+
+        @Override
+        public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            viewHolder.itemView.setAlpha(1 - Math.abs(dX) / getResources().getDisplayMetrics().widthPixels);
         }
     };
 

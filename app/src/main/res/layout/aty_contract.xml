@@ -12,7 +12,7 @@
             android:layout_height="56dp"
             android:layout_width="match_parent" />
         <TextView
-            android:layout_margin="8dp"
+            android:layout_margin="15dp"
             android:id="@+id/aty_contract_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

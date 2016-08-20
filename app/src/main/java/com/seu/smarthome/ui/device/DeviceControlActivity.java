@@ -52,15 +52,18 @@ public class DeviceControlActivity extends BaseActivity implements View.OnClickL
     private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            getDeviceState();
-            if(!state) {
-                btnControl.setChecked(false);
-                handler.removeCallbacks(runnable);
-                Toast.makeText(APP.context(), "设备已关闭", Toast.LENGTH_SHORT).show();
-            }
-            else
-                handler.postDelayed(runnable, 2000);
-
+            getDeviceState(new StateCallback() {
+                @Override
+                public void call() {
+                    if(!state) {
+                        btnControl.setChecked(false);
+                        handler.removeCallbacks(runnable);
+                        Toast.makeText(APP.context(), "设备已关闭", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        handler.postDelayed(runnable, 2000);
+                }
+            });
         }
     };
 
@@ -105,7 +108,7 @@ public class DeviceControlActivity extends BaseActivity implements View.OnClickL
             }
         }
 
-        getDeviceState();
+        getDeviceState(null);
     }
 
     @Override
@@ -191,7 +194,7 @@ public class DeviceControlActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    private void getDeviceState(){
+    private void getDeviceState(final StateCallback callback){
         Map<String,String> map = new HashMap<>();
         map.put("token", StrUtils.token());
         map.put("deviceid", Integer.toString(device.id));
@@ -223,6 +226,9 @@ public class DeviceControlActivity extends BaseActivity implements View.OnClickL
                     tvAutoState.setText("定时：关");
                 }
 
+                if(callback != null)
+                    callback.call();
+
 
             }
         });
@@ -250,7 +256,7 @@ public class DeviceControlActivity extends BaseActivity implements View.OnClickL
                 state = true;
                 Toast.makeText(APP.context(), "设备已开启", Toast.LENGTH_SHORT).show();
                 if(device.deviceType == Device.DEVICE_TYPE_WATER || device.deviceType == Device.DEVICE_TYPE_FEED)
-                    handler.postDelayed(runnable, 15000);
+                    handler.postDelayed(runnable, 2000);
             }
         });
     }
@@ -316,6 +322,10 @@ public class DeviceControlActivity extends BaseActivity implements View.OnClickL
 
     private void deleteDevice(){
 
+    }
+
+    private interface StateCallback{
+        void call();
     }
 
     @Override
